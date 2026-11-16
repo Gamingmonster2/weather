@@ -1,0 +1,19 @@
+/* Rain.ly product overrides (dark-first azure) */
+[data-brand="rain"] .app-bg::before {
+  opacity: 0.7;
+}
+[data-brand="rain"] .brand-mark {
+  box-shadow: 0 8px 22px -8px color-mix(in oklab, var(--primary) 80%, transparent);
+}
+[data-brand="rain"] .current-card {
+  background:
+    radial-gradient(120% 90% at 88% 8%, color-mix(in oklab, var(--primary) 22%, transparent) 0%, transparent 60%),
+    var(--card);
+}
+[data-brand="rain"].dark .map-shell {
+  border-color: color-mix(in oklab, var(--primary) 25%, var(--border));
+}
+.lang-ar [lang="en"].lang-en { display: none; }
+.lang-en [lang="ar"].lang-ar { display: none; }
+html[lang="ar"] .lang-en { display: none; }
+html[lang="en"] .lang-ar { display: none; }

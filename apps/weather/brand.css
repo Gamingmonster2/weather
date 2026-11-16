@@ -1,0 +1,8 @@
+/* weather.com.ly overrides (light-first teal) */
+[data-brand="weather"] .current-card {
+  background:
+    radial-gradient(120% 90% at 88% 8%, color-mix(in oklab, var(--primary) 14%, transparent) 0%, transparent 60%),
+    var(--card);
+}
+html[lang="ar"] .lang-en { display: none; }
+html[lang="en"] .lang-ar { display: none; }

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#e2e8f0"/></linearGradient>
+    <linearGradient id="p" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#14b8a6"/><stop offset="100%" stop-color="#0f766e"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="260" fill="#14b8a6" opacity="0.15"/>
+  <circle cx="180" cy="540" r="240" fill="#0ea5e9" opacity="0.12"/>
+  <g transform="translate(110,180)">
+    <rect width="120" height="120" rx="28" fill="url(#p)"/>
+    <circle cx="60" cy="56" r="18" fill="#fff"/>
+    <path d="M20 84c8-8 16-8 24 0s16 8 24 0 16-8 24 0" fill="none" stroke="#ccfbf1" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <text x="270" y="245" font-family="Geist, Arial, sans-serif" font-size="72" font-weight="700" fill="#0f172a">weather.com.ly</text>
+  <text x="270" y="315" font-family="Geist, Arial, sans-serif" font-size="36" fill="#0f766e">Weather, earthquake &amp; marine observatory</text>
+  <text x="270" y="375" font-family="IBM Plex Sans Arabic, Arial, sans-serif" font-size="34" fill="#334155">مرصد الطقس والزلازل والبحر</text>
+  <text x="110" y="560" font-family="Geist, Arial, sans-serif" font-size="26" fill="#64748b">Open-Meteo · USGS · OpenStreetMap · no API keys</text>
+</svg>

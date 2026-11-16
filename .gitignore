@@ -1,0 +1,23 @@
+# build output
+/dist/
+.wrangler/
+.cache/
+
+# dependencies (the project intentionally has none at runtime)
+node_modules/
+
+# os / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# env
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*

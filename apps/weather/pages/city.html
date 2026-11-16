@@ -1,0 +1,34 @@
+<section class="section" data-city-page data-city-id="{{cityId}}" data-city-lat="{{cityLat}}" data-city-lon="{{cityLon}}">
+  <div class="container">
+    <div class="hero-head">
+      <div>
+        <div class="eyebrow"><span data-i18n="city.weather">Weather in</span> <span class="lang-en">{{cityEn}}</span><span class="lang-ar">{{cityAr}}</span></div>
+        <h1 class="page-title"><span class="lang-en">{{cityEn}}</span><span class="lang-ar">{{cityAr}}</span></h1>
+        <p class="page-sub"><span class="lang-en">{{cityRegionEn}}</span><span class="lang-ar">{{cityRegionAr}}</span> · <span data-i18n="city.seoLine">Updated every 10 minutes from Open-Meteo, with no API key and no tracking.</span></p>
+      </div>
+      <div class="hero-actions"><button class="btn btn-outline" id="btn-refresh" type="button" data-i18n="action.refresh">Refresh</button></div>
+    </div>
+
+    <div class="hero-grid">
+      <div class="card current-card"><div class="current-inner">
+        <div class="current-top"><div><div class="loc-name" id="loc-name"><span class="lang-en">{{cityEn}}</span><span class="lang-ar">{{cityAr}}</span></div><div class="loc-meta" id="loc-region"><span class="lang-en">{{cityRegionEn}}</span><span class="lang-ar">{{cityRegionAr}}</span></div></div><div class="badge badge-secondary" id="cond-badge">—</div></div>
+        <div class="current-main"><div><div class="temp-wrap"><span class="temp-value" id="temp-now">—</span><span class="temp-unit" id="temp-unit">°C</span></div><div class="cond-line"><span class="cond-text" id="cond-text">—</span></div><div class="feels"><span data-i18n="wx.feelsLike">Feels like</span> <span id="feels-like">—</span></div></div><div id="cond-glyph"></div></div>
+        <div class="current-stats"><div class="mini-stat"><div class="k" data-i18n="wx.humidity">Humidity</div><div class="v" id="stat-humidity">—</div></div><div class="mini-stat"><div class="k" data-i18n="wx.wind">Wind</div><div class="v" id="stat-wind">—</div></div><div class="mini-stat"><div class="k" data-i18n="wx.pressure">Pressure</div><div class="v" id="stat-pressure">—</div></div><div class="mini-stat"><div class="k" data-i18n="wx.uvIndex">UV</div><div class="v" id="stat-uv">—</div></div></div>
+      </div></div>
+      <div class="stack"><div class="card"><div class="card-header"><div class="card-title" data-i18n="wx.airQuality">Air quality</div></div><div class="card-content" id="air-card">—</div></div><div class="card"><div class="card-header"><div class="card-title" data-i18n="wx.sea">Sea state</div></div><div class="card-content" id="marine-card">—</div></div></div>
+    </div>
+
+    <div class="card panel mt-4"><div class="panel-bar"><div class="tabs tabs-lg" role="tablist"><button class="tab" role="tab" aria-selected="true" data-tab="tab-hourly" data-i18n="wx.hourly">Hour by hour</button><button class="tab" role="tab" aria-selected="false" data-tab="tab-daily" data-i18n="wx.daily">Next 7 days</button></div></div>
+      <div class="panel-body"><div class="tab-panel is-active" id="tab-hourly" data-tab-panel="tab-hourly"><div class="chart-shell" id="hourly-chart"></div><div class="hour-strip mt-4" id="hour-strip"></div></div><div class="tab-panel" id="tab-daily" data-tab-panel="tab-daily" hidden><div class="daily-list" id="daily-list"></div></div></div>
+    </div>
+
+    <div class="weather-split mt-4">
+      <div class="card"><div class="card-header"><div class="card-title" data-i18n="wx.quakes">Earthquakes</div></div><div class="card-content"><div class="table-wrap"><table class="table"><thead><tr><th data-i18n="wx.magnitude">Magnitude</th><th data-i18n="wx.distance">Distance</th><th data-i18n="wx.depth">Depth</th><th>Time</th></tr></thead><tbody id="quakes-body"><tr><td colspan="4">—</td></tr></tbody></table></div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title" data-i18n="city.climate">Climate</div></div><div class="card-content prose"><p class="lang-en">{{zoneTextEn}}</p><p class="lang-ar">{{zoneTextAr}}</p><div id="sun-arc" class="mt-3"></div><div class="sun-times"><span id="sunrise">—</span><span id="sunset">—</span></div><div class="detail-grid mt-3" id="detail-grid"></div></div></div>
+    </div>
+
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"Weather in {{cityEn}}","about":{"@type":"Place","name":"{{cityEn}}","geo":{"@type":"GeoCoordinates","latitude":{{cityLat}},"longitude":{{cityLon}}}},"isPartOf":{"@type":"WebSite","name":"{{siteName}}","url":"{{domain}}"}}
+    </script>
+  </div>
+</section>

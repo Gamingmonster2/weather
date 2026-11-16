@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-brand="rain">
+<head>
+{{head}}
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/weather.css">
+  <link rel="stylesheet" href="/assets/css/brand-rain.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="/assets/js/theme-init.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="action.skip">Skip to content</a>
+  <div class="app-bg" aria-hidden="true"><canvas class="rain-canvas" id="rain-canvas"></canvas></div>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Rain.ly home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 18a4.5 4.5 0 0 0 .4-9A6.2 6.2 0 0 0 6 10.4 4 4 0 0 0 6.5 18"/><path d="M8 14v5M12 14v6M16 14v5"/></svg>
+          </span>
+          <span>
+            <span class="brand-name">Rain<span>.ly</span></span>
+            <span class="brand-sub" data-i18n="brand.tagline">Precipitation intelligence & rain radar</span>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-link" href="/" data-nav="/" data-i18n="nav.overview">Overview</a>
+          <a class="nav-link" href="/cities.html" data-nav="/cities.html" data-i18n="nav.cities">Cities</a>
+          <a class="nav-link" href="/guides.html" data-nav="/guides.html" data-i18n="nav.guides">Guides</a>
+          <a class="nav-link" href="/about.html" data-nav="/about.html" data-i18n="nav.about">About</a>
+        </nav>
+        <div class="header-actions">
+          <button class="header-search" id="open-search" type="button" data-i18n-aria="action.search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-4.2-4.2"/></svg>
+            <span data-i18n="action.search">Search city</span>
+            <kbd class="kbd">/</kbd>
+          </button>
+          <button class="icon-btn" id="btn-locate" type="button" data-i18n-aria="action.locate" data-i18n-title="action.locate" title="Locate me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="7.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>
+          </button>
+          <button class="icon-btn" id="btn-theme" type="button" data-i18n-aria="label.theme" title="Theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M19.4 4.6l-1.6 1.6M6.2 17.8l-1.6 1.6"/></svg>
+          </button>
+          <button class="btn btn-sm btn-outline" id="btn-lang" type="button"><span data-lang-label>ع</span></button>
+          <button class="icon-btn" id="btn-menu" type="button" data-i18n-aria="label.menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="app-main">
+{{body}}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="/">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17.5 18a4.5 4.5 0 0 0 .4-9A6.2 6.2 0 0 0 6 10.4 4 4 0 0 0 6.5 18"/><path d="M8 14v5M12 14v6M16 14v5"/></svg></span>
+            <span class="brand-name">Rain<span>.ly</span></span>
+          </a>
+          <p data-i18n="footer.built">Built with open data — no API keys, no trackers.</p>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.product">Product</h4>
+          <a class="footer-link" href="/cities.html" data-i18n="nav.cities">Cities</a>
+          <a class="footer-link" href="/guides.html" data-i18n="nav.guides">Guides</a>
+          <a class="footer-link" href="/about.html" data-i18n="nav.about">About</a>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.sources">Data sources</h4>
+          <a class="footer-link" href="https://open-meteo.com/" rel="noopener">Open-Meteo</a>
+          <a class="footer-link" href="https://www.rainviewer.com/" rel="noopener">RainViewer</a>
+          <a class="footer-link" href="https://www.openstreetmap.org/" rel="noopener">OpenStreetMap</a>
+          <a class="footer-link" href="{{crossUrl}}" data-i18n="footer.cross">Also from us</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© {{year}} {{siteName}}. <span data-i18n="footer.rights">All rights reserved.</span></span>
+        <a href="https://github.com/Gamingmonster2/weather" rel="noopener" data-i18n="action.openRepo">Source code</a>
+      </div>
+    </footer>
+  </div>
+
+  <div class="sheet" id="nav-sheet" aria-hidden="true">
+    <div class="sheet-backdrop"></div>
+    <div class="sheet-panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="flex items-center justify-between mb-4">
+        <span class="brand-name">Rain<span>.ly</span></span>
+        <button class="icon-btn" data-close-sheet type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <a class="sheet-link" href="/"><span data-i18n="nav.overview">Overview</span></a>
+      <a class="sheet-link" href="/cities.html"><span data-i18n="nav.cities">Cities</span></a>
+      <a class="sheet-link" href="/guides.html"><span data-i18n="nav.guides">Guides</span></a>
+      <a class="sheet-link" href="/about.html"><span data-i18n="nav.about">About</span></a>
+      <hr style="margin:0.5rem 0">
+      <a class="sheet-link" href="{{crossUrl}}">{{crossName}}</a>
+    </div>
+  </div>
+
+  <dialog class="modal" id="search-dialog" aria-label="Search">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" data-i18n="action.search">Search city</div>
+          <div class="modal-desc" data-i18n="action.searchHint">Type at least 2 characters</div>
+        </div>
+        <button class="icon-btn modal-close" data-close-dialog type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-4.2-4.2"/></svg>
+        <input class="input input-lg" id="search-input" type="search" autocomplete="off" data-i18n-placeholder="action.searchPlaceholder" placeholder="Search a Libyan or world city…">
+      </div>
+      <div class="modal-body">
+        <div class="command-list" id="search-results"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script type="module" src="/assets/js/app.js"></script>
+</body>
+</html>
