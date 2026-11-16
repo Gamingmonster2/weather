@@ -31,3 +31,14 @@ Coastal cities often benefit from sea breezes that disperse pollutants, while in
 - On high-dust days, limit strenuous outdoor exercise and keep windows closed.
 - Sensitive groups should watch PM2.5 specifically, not just the headline AQI.
 - Check the hourly trend: a short spike differs from a day-long event.
+
+## More on weather.com.ly
+
+- View current air, wind and forecast on the [overview](/) or choose a location from [cities](/cities.html).
+- Read next: [Coastal winds, waves and marine safety in Libya](/guides/coastal-winds-marine.html) and [Earthquakes around Libya: what the numbers mean](/guides/libya-earthquakes.html).
+- Browse all [weather.com.ly guides](/guides.html).
+
+## From our sister site
+
+- Rain often clears the air — track incoming showers and radar on [Rain.ly](https://www.rain.ly/).
+- For rain timing and safety in heavy downpours, see [Flash floods and wadis: staying safe in Libya](https://www.rain.ly/guides/flash-floods-wadis.html) and [How to read rain radar like a forecaster](https://www.rain.ly/guides/reading-rain-radar.html).

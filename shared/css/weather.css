@@ -793,7 +793,7 @@ input[type="range"].slider::-moz-range-thumb {
 }
 .footer-main {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
   gap: 2rem;
   padding-block: 2.25rem 1.5rem;
 }
@@ -829,6 +829,10 @@ input[type="range"].slider::-moz-range-thumb {
 }
 .footer-bottom a { color: inherit; }
 .footer-bottom a:hover { color: var(--primary); }
+@media (max-width: 960px) {
+  .footer-main { grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 1fr)); }
+  .footer-brand { grid-column: 1 / -1; }
+}
 @media (max-width: 760px) {
   .footer-main { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .footer-brand { grid-column: 1 / -1; }

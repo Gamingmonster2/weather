@@ -41,3 +41,14 @@ Radar sees precipitation in the air, not always what reaches the ground. Virga (
 - Check the **next 60 minutes** of nowcast for your location.
 - Confirm the **probability and accumulation** in the hourly panel.
 - In winter coastal storms, watch for repeated bands training over the same area — that is when local flooding risk rises.
+
+## More on Rain.ly
+
+- Explore the [live radar and overview](/) or pick your area from [Libyan cities](/cities.html).
+- Read next: [Rain seasons across Libya's coast, mountains and desert](/guides/libya-rain-seasons.html) and [Flash floods and wadis: staying safe in Libya](/guides/flash-floods-wadis.html).
+- Browse all [Rain.ly guides](/guides.html).
+
+## From our sister site
+
+- For temperature, wind, marine and earthquake context, visit [weather.com.ly](https://weather.com.ly/).
+- See [Understanding air quality and dust in Libya](https://weather.com.ly/guides/reading-air-quality.html) when dust or ghibli winds affect visibility.

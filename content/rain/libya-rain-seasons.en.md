@@ -34,3 +34,14 @@ Sabha, Ubari, Ghat and Kufra are hyper-arid. Annual rainfall is sparse and errat
 - Compare the **7-day accumulation** with the city's climate zone shown on its page.
 - Check **hourly probability** rather than daily icons; a "dry" day can still hide a short downpour.
 - After a storm, use the radar past frames to understand which catchments actually received rain.
+
+## More on Rain.ly
+
+- See the [live overview and radar](/) and browse [Libyan cities](/cities.html) by region and zone.
+- Read next: [How to read rain radar like a forecaster](/guides/reading-rain-radar.html) and [Flash floods and wadis: staying safe in Libya](/guides/flash-floods-wadis.html).
+- Browse all [Rain.ly guides](/guides.html).
+
+## From our sister site
+
+- Pair rain awareness with broader conditions on [weather.com.ly](https://weather.com.ly/) (forecast, air quality, marine and earthquakes).
+- After wet weather, check [Understanding air quality and dust in Libya](https://weather.com.ly/guides/reading-air-quality.html) for how particulates often change.
