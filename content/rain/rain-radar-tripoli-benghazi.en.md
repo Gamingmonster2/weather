@@ -1,53 +1,77 @@
 ---
 slug: rain-radar-tripoli-benghazi
 lang: en
-title: Live rain radar for Tripoli and Benghazi
-description: How to use the live radar to track rain over Libya's two biggest coastal cities, and what the coastal setup means for showers and thunderstorms.
+title: Tripoli & Benghazi radar, moment by moment
+description: Follow the rain band over Libya's two biggest cities. A simple live-radar guide with easy safety tips.
 date: 2026-11-18
-read: 6
+read: 4
 ---
 
-# Live rain radar for Tripoli and Benghazi
+# Tripoli & Benghazi radar, moment by moment
 
-Search interest in **رادار الأمطار طرابلس** and **rain radar Benghazi** spikes every time a Mediterranean low approaches Libya. Radar is the fastest way to see whether a band of rain is actually reaching the coast — or still sitting offshore. Here is how to read it for the two largest cities.
+A low is nearing the coast?
+Everyone asks: will the rain reach us?
 
-## Why the coast behaves differently
+Radar knows first.
+Here is how to ask it.
 
-Tripoli sits on the western coast facing the Gulf of Sidra, while Benghazi lies further east near the Gulf of Benghazi. Both receive most of their rain between November and March, but the track of the cyclone decides which one gets the downpour:
+![A storm on the coast | A harbour and lighthouse during a night thunderstorm](/assets/articles/coastal-storm.jpg)
 
-- A low tracking **west of Libya** pushes moist air into Tripoli and the western mountains first.
-- A low centred **over the Gulf of Sidra** can send bands north-east toward Benghazi and the Green Mountain.
-- A slow **cut-off low** can keep training storms over the same coastal district for hours.
+## The two cities do not rain the same way
 
-## How to check each city on the map
+Tripoli is in the west.
+Benghazi is further east.
+
+Both get winter rain.
+But the low's track picks the winner.
+
+Low west of Libya? Tripoli first.
+Low over the Gulf of Sidra? Benghazi and the Green Mountain.
+Slow low? One band may linger for hours.
+
+## How to check your city?
+
+Short steps:
 
 1. Open the [live map](/).
-2. Choose the city from [Libyan cities](/cities.html) or tap its marker on the map.
-3. Play the radar frames and watch the band approaching from the sea or from the south-west.
-4. Use the colours: green is light, yellow/orange is moderate, red is heavy.
-5. Reload every few minutes — radar scans are not continuous.
+2. Pick your city from [Libyan cities](/cities.html).
+3. Play the frames.
+4. Watch the band coming from the sea.
+5. Check again in a few minutes.
 
-## What the radar cannot tell you
+Green is light.
+Yellow is moderate.
+Red... take care.
 
-Radar shows where precipitation is, not what the ground is doing. A red cell over a city may produce flash flooding if the drainage is blocked, or very little impact if it moves quickly. Combine radar with:
+![Lightning often arrives first | Lightning in a storm sky](/assets/articles/lightning.jpg)
 
-- The [hourly rain forecast](/guides/hourly-rain-forecast-libya.html) for probability and expected totals.
-- The [flash-flood and wadi guide](/guides/flash-floods-wadis.html) when rain falls on higher ground.
-- The [7-day outlook](/guides/libya-rain-seasons.html) to understand whether the event is part of the normal season.
+## What radar cannot say?
 
-## Coastal safety tips during heavy radar returns
+Radar sees the sky.
+It does not see your street.
 
-- Avoid underpasses and roads that flood quickly.
-- Do not drive into wadis or dry valleys, even if the sky above you looks clear.
-- If thunder is reported, move indoors — radar red often pairs with lightning.
-- Check conditions again before leaving; a band can pass in 20 minutes.
+A red cell over the city may flood a road.
+Or pass in twenty minutes with no trace.
 
-## More on Rain.ly
+Pair it with the [hourly forecast](/guides/hourly-rain-forecast-libya.html).
+And read the [flash-flood guide](/guides/flash-floods-wadis.html) if rain hits the hills.
 
-- [Live overview and radar](/), [all cities](/cities.html), and [every guide](/guides.html).
-- Understanding the [live rain map of Libya](/guides/live-rain-map-libya.html) and [radar versus forecast](/guides/radar-vs-forecast.html).
+## Small tips, big difference
+
+Do not drive into a flooded underpass.
+Do not enter a dry wadi.
+If you hear thunder, step inside.
+Then look again before you leave.
+
+![Rain reaches everyone | A silhouette in an old North African medina](/assets/articles/medina-rain.jpg)
+
+## Keep reading
+
+The [Libya rain map](/guides/live-rain-map-libya.html) is simple too.
+And [Radar or forecast?](/guides/radar-vs-forecast.html) explains the difference kindly.
+
+Or start from [all guides](/guides.html).
 
 ## From our sister site
 
-- Follow sea state and winds during coastal storms on [weather.com.ly](https://weather.com.ly/).
-- Read [coastal winds and marine conditions](https://weather.com.ly/guides/coastal-winds-marine.html) for the bigger marine picture.
+Sea state and winds: [weather.com.ly](https://weather.com.ly/).

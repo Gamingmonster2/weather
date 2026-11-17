@@ -1,43 +1,78 @@
 ---
 slug: radar-vs-forecast
 lang: en
-title: Radar or forecast? Which one to trust in the next hours
-description: Understand what radar and numerical forecasts each do best, and how to combine them for the next 30 minutes, 6 hours and 3 days.
+title: Radar or forecast? Which one to trust?
+description: A simple, friendly comparison of radar and forecasts, and when to use each one in the hours ahead.
 date: 2026-11-21
-read: 6
+read: 3
 ---
 
-# Radar or forecast? Which one to trust in the next hours
+# Radar or forecast? Which one to trust?
 
-People often ask which is more accurate: the [live radar](/guides/live-rain-map-libya.html) or the [hourly forecast](/guides/hourly-rain-forecast-libya.html). The honest answer is that they answer different questions. Radar tells you what is happening now. A forecast model tells you what is likely to happen later. Use both.
+People often ask me:
+Which one is more accurate?
 
-## What radar is best at
+Easy answer:
+They answer different questions.
 
-Radar observes precipitation that already exists. It is unbeatable for the next 30–60 minutes: where the band is, which direction it moves, and whether it is strengthening. On Rain.ly, play the frames on the [live map](/).
+![A storm on its way | Lightning over a mountain during a storm](/assets/articles/thunderstorm.jpg)
 
-Radar limitations: it cannot see beyond the horizon, it may overestimate heavy convective rain, and it can miss shallow drizzle.
+## Radar sees right now
 
-## What a forecast model is best at
+Radar photographs rain that already exists.
+Nobody beats it for the first hour.
 
-Models simulate the atmosphere forward in time. They are better for the next 6 hours to 7 days: probability, expected accumulation and temperature trends. Open any city on [Rain.ly](/cities.html) to see hourly and daily views.
+Where is the band?
+Where is it going?
+Is it growing?
 
-Model limitations: the farther out you go, the more uncertain it becomes. In Libya, sparse observations over the desert increase that uncertainty.
+But it cannot see far.
+And it may exaggerate a strong storm.
 
-## A simple rule by timeframe
+## Forecasts see later
 
-- **Now to 60 minutes:** trust radar.
-- **1 to 6 hours:** blend both — radar for the near edge, model for what follows.
-- **6 hours to 7 days:** trust the forecast, and recheck it daily.
+A model simulates the air ahead.
+It gives you chance, amount and temperature.
 
-## A real-world example
+From 6 hours to a week, it is your best friend.
 
-A model gives Tripoli a 40% chance at 6 pm. Radar shows a green band 40 km offshore moving east at 30 km/h. The band should reach the coast in about 80 minutes — combine both and expect rain slightly later than the hourly column suggests.
+But the further you go, the more it drifts.
+In Libya, few observations add a little error.
 
-## More on Rain.ly
+## One tiny rule
 
-- [Live overview and radar](/), [all cities](/cities.html), [all guides](/guides.html).
-- [Live rain map of Libya](/guides/live-rain-map-libya.html) and [radar for Tripoli and Benghazi](/guides/rain-radar-tripoli-benghazi.html).
+- **Now to 1 hour:** trust radar.
+- **1 to 6 hours:** blend both.
+- **6 hours and more:** trust the forecast, recheck daily.
+
+![A rainbow after rain | A rainbow over a hill after a shower](/assets/articles/rainbow.jpg)
+
+## A real example
+
+The model says: 40% at six o'clock.
+Radar says: a green band at sea, heading our way.
+
+Distance: 40 km.
+Speed: 30 km per hour.
+
+So rain in about 80 minutes.
+We combined both and got a better answer.
+
+## And the bright side
+
+Storms pass.
+The sky clears again.
+
+![A quiet morning mist | Mist over a hill at sunrise](/assets/articles/mist.jpg)
+
+## Read more
+
+[The Libya rain map](/guides/live-rain-map-libya.html).
+[Tripoli & Benghazi radar](/guides/rain-radar-tripoli-benghazi.html).
+[The hourly forecast](/guides/hourly-rain-forecast-libya.html).
+
+Or [all guides](/guides.html).
 
 ## From our sister site
 
-- Wider conditions: [weather.com.ly](https://weather.com.ly/) and [coastal winds and marine conditions](https://weather.com.ly/guides/coastal-winds-marine.html).
+[weather.com.ly](https://weather.com.ly/) adds the sea and air quality.

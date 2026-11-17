@@ -1,59 +1,84 @@
 ---
 slug: hourly-rain-forecast-libya
 lang: en
-title: Hour-by-hour rain forecast in Libya: a practical guide
-description: Learn how to read hourly rain probability, accumulation and radar together so you can plan the next 24 hours in Tripoli, Benghazi or any Libyan city.
+title: Will it rain? Your hour-by-hour guide
+description: Read the hours easily. Chance, amount, and the right time to go out — a short and friendly guide.
 date: 2026-11-19
-read: 6
+read: 4
 ---
 
-# Hour-by-hour rain forecast in Libya: a practical guide
+# Will it rain? Your hour-by-hour guide
 
-A daily icon says "rain". The [hourly forecast](/cities.html) tells you *when*. If you are searching for **توقعات الأمطار ساعة بساعة** or *hourly rain forecast Libya*, this guide explains the three numbers that matter and how to combine them with the [live radar](/).
+Today's icon says "rain".
+But when?
 
-## The three numbers that matter
+The hourly table tells you.
+Only three numbers matter.
 
-### 1. Probability of precipitation
+![Start with your window | Raindrops on a glass](/assets/articles/raindrops.jpg)
 
-This is the chance that measurable rain falls at that hour. A 70% chance does not mean it rains 70% of the hour — it means 7 out of 10 similar situations produced rain. For planning, treat anything above 50% as likely.
+## Number one: the chance
 
-### 2. Accumulation
+How likely is rain?
 
-Measured in millimetres. Rough guide:
+60% means something simple:
+in ten similar cases, it rains six times.
 
-- 0–1 mm — trace or drizzle.
-- 1–5 mm — light rain, wet roads.
-- 5–20 mm — heavy rain, possible standing water.
-- 20+ mm — very heavy, flash-flood risk on vulnerable ground.
+Above 50%? Take an umbrella.
+Below 30%? Relax a little.
 
-### 3. Intensity when it falls
+## Number two: the amount
 
-Rain can be brief and heavy or long and light. The same 8 mm over one hour versus eight hours feels completely different. The [radar colours](/guides/live-rain-map-libya.html) help you tell which one you are facing.
+It is measured in millimetres.
+Do not worry about the name.
 
-## A simple planning method
+1 mm? A little drizzle.
+5 mm? Wet roads.
+20 mm? Puddles and possible floods.
 
-1. Look at the next 12 hours and mark the window with the highest probability.
-2. Check the accumulation for that window, not just the icon.
-3. Confirm with radar: is the band already nearby or still far away?
-4. Recheck 1–2 hours before you leave — hourly models update several times a day.
+![Night can be the wettest | A rainy street at night](/assets/articles/rainy-night.jpg)
 
-## Why hourly forecasts change
+## Number three: the strength
 
-Models re-run on fresh observations. In Libya, sparse ground observations over the desert and complex coastal topography make the first 6–12 hours more reliable than day five. Treat the far end of the forecast as a tendency, not a plan.
+Eight millimetres in one hour?
+Or spread over eight hours?
 
-## City examples
+Same number.
+A very different feeling.
 
-- **Tripoli:** coastal showers often peak in the late afternoon or overnight during winter lows.
-- **Benghazi:** onshore flow can keep rain going for hours when a low stalls to the west.
-- **Al Bayda / Shahat:** orographic lift adds rain and low cloud; hourly temperature may stay suppressed all day.
-- **Sabha / Ubari:** rain is rare but convective bursts can be intense and short — hourly probability may jump from 0 to 60% for a single hour.
+The first is a quick burst.
+The second is a whole drizzly day.
 
-## More on Rain.ly
+The [radar colours](/guides/live-rain-map-libya.html) help you tell them apart.
 
-- Open [live radar and the overview](/), pick a city from [Libyan cities](/cities.html), and browse all [guides](/guides.html).
-- Read next: [Live rain map of Libya](/guides/live-rain-map-libya.html), [Radar or forecast?](/guides/radar-vs-forecast.html), and [Flash floods and wadis](/guides/flash-floods-wadis.html).
+## An easy way to plan
+
+Try this:
+
+- Look at the next 12 hours.
+- Pick the hour with the highest chance.
+- Read the amount there, not the icon.
+- Check again one hour before you leave.
+
+Models update several times a day.
+The latest run beats the first one.
+
+## After the rain... sun
+
+Storms do not last forever.
+Quiet hours come back.
+
+![The sky clears after rain | Sun and clouds after a shower](/assets/articles/after-rain.jpg)
+
+## Try it now
+
+Open [Libyan cities](/cities.html) and pick yours.
+Or watch the [live radar](/).
+And browse [all guides](/guides.html).
+
+For a simple comparison:
+[Radar or forecast?](/guides/radar-vs-forecast.html).
 
 ## From our sister site
 
-- Compare the rain hours with air quality and sea conditions on [weather.com.ly](https://weather.com.ly/).
-- See [Understanding air quality and dust in Libya](https://weather.com.ly/guides/reading-air-quality.html) after a wet spell.
+Air quality after the rain: [weather.com.ly](https://weather.com.ly/).

@@ -1,37 +1,69 @@
 ---
 slug: interactive-weather-map
 lang: en
-title: The interactive weather map: pick any point and get its forecast
-description: How to use click-to-forecast, the location button and the globe view on Rain.ly for weather at exactly the place you care about.
+title: Pick any place... and get its weather
+description: Tap any point on the map or use your location. A simple guide to Rain.ly's interactive weather map.
 date: 2026-11-20
-read: 5
+read: 3
 ---
 
-# The interactive weather map: pick any point and get its forecast
+# Pick any place... and get its weather
 
-Most weather sites make you choose from a fixed list of cities. The interactive map on Rain.ly works differently: tap any point on Earth and the site loads a forecast for that exact coordinate. This matters if you live between cities or need a village, farm or coastal spot that is not in any list.
+Most sites give you a city list.
+We do something else.
 
-## Three ways to choose a place
+Tap any spot on Earth.
+We send you its weather right away.
 
-**Tap the map.** The selected-point marker moves and a forecast loads for that coordinate.
+![Earth from space | View of Earth with Africa and Europe](/assets/articles/earth-africa.jpg)
 
-**Use my location.** The location button asks for GPS and falls back to an approximate IP location if GPS is denied.
+## Three ways to choose
 
-**Pick a city.** Choose from [Libyan cities](/cities.html) or the search box for a named place.
+**Tap the map.**
+The marker moves and the forecast appears.
 
-## The selected-point card
+**Press "my location".**
+We ask for GPS. If you say no, we use a rough guess.
 
-After any selection, the card beside the map shows the place name, coordinates and data source (GPS, IP, map or search). The globe view highlights the same point among watched cities so you can see it in a wider context.
+**Pick a city.**
+From [Libyan cities](/cities.html) or the search box.
 
-## On desktop and mobile
+## What does the card show?
 
-Zoom controls sit at the bottom-right with large touch targets on phones, and attribution stays at the bottom-left. The map resizes on rotation, so it works on laptops, tablets and phones without losing the view.
+The place name.
+The coordinates.
+And where the location came from: GPS, map, or search.
 
-## More on Rain.ly
+So you always know what you are looking at.
 
-- [Live overview and radar](/), [all cities](/cities.html), [every guide](/guides.html).
-- [Live rain map of Libya](/guides/live-rain-map-libya.html) and [hourly forecast](/guides/hourly-rain-forecast-libya.html).
+![A long cloud over Earth | Satellite view of a rope cloud](/assets/articles/rope-clouds.jpg)
+
+## The globe, too
+
+One city is not always enough.
+The globe puts your point among other cities.
+
+It turns slowly.
+Tap a glowing dot to choose it.
+
+## On phone and desktop
+
+Zoom buttons sit at the bottom right.
+Big enough for your fingers.
+
+Attribution stays at the bottom left.
+The map resizes when you turn your device.
+
+![Dust over the Mediterranean | Satellite view of dust over the sea](/assets/articles/med-dust.jpg)
+
+## Try it now
+
+Open the [live map](/).
+Or browse [all guides](/guides.html).
+
+See also:
+[the Libya rain map](/guides/live-rain-map-libya.html).
 
 ## From our sister site
 
-- Air quality, marine and earthquakes: [weather.com.ly](https://weather.com.ly/).
+[weather.com.ly](https://weather.com.ly/) watches the sea and earthquakes too.

@@ -186,6 +186,7 @@ export const DICT = {
     "guides.allSub": "Practical meteorology for Libya, written for everyone",
 
     "footer.sources": "Data sources",
+    "footer.credits": "Image credits",
     "footer.product": "Product",
     "footer.about": "About this project",
     "footer.cross": "Also from us",
@@ -400,6 +401,7 @@ export const DICT = {
     "guides.allSub": "أرصاد عملية لليبيا مكتوبة للجميع",
 
     "footer.sources": "مصادر البيانات",
+    "footer.credits": "إسناد الصور",
     "footer.product": "المنتج",
     "footer.about": "عن المشروع",
     "footer.cross": "من منتجاتنا",

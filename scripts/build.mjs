@@ -74,6 +74,22 @@ function mdToHtml(md) {
   while (i < lines.length) {
     const line = lines[i];
     if (/^\s*$/.test(line)) { i++; continue; }
+    // Standalone image: ![caption | descriptive alt](/assets/articles/x.jpg)
+    const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/);
+    if (imgMatch) {
+      const bits = imgMatch[1].split("|");
+      const caption = (bits[0] || "").trim();
+      const alt = (bits.slice(1).join("|") || bits[0] || "").trim();
+      out.push([
+        '<figure class="article-figure magic-card">',
+        '<div class="article-figure-media">',
+        `<img src="${esc(imgMatch[2])}" alt="${esc(alt)}" loading="eager" decoding="async">`,
+        "</div>",
+        caption ? `<figcaption>${inline(caption)}</figcaption>` : "",
+        "</figure>",
+      ].join(""));
+      i++; continue;
+    }
     if (/^### /.test(line)) { out.push(`<h3>${inline(line.slice(4))}</h3>`); i++; continue; }
     if (/^## /.test(line)) { out.push(`<h2>${inline(line.slice(3))}</h2>`); i++; continue; }
     if (/^# /.test(line)) { out.push(`<h1>${inline(line.slice(2))}</h1>`); i++; continue; }
@@ -97,7 +113,7 @@ function mdToHtml(md) {
       continue;
     }
     const para = [];
-    while (i < lines.length && !/^\s*$/.test(lines[i]) && !/^(#{1,3} |>|[-*] |\d+\. |---)/.test(lines[i])) {
+    while (i < lines.length && !/^\s*$/.test(lines[i]) && !/^(#{1,3} |>|[-*] |\d+\. |---|!\[)/.test(lines[i])) {
       para.push(lines[i]);
       i++;
     }
@@ -344,6 +360,11 @@ async function buildSite(site, cities, allGuides) {
     path: "/cities.html",
     title: `${site.name} — Libyan cities & live weather`,
     description: `Live weather, rain and forecast conditions for cities across Libya on ${site.name}.`,
+  }));
+  await writePage("credits.html", "credits", pageMeta(site, "credits", {
+    path: "/credits.html",
+    title: `${site.name} — Image credits`,
+    description: `Photo credits and licences for images used on ${site.name}.`,
   }));
   await writePage("404.html", "404", pageMeta(site, "404", { path: "/404.html", title: "Not found" }));
 
