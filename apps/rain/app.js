@@ -59,7 +59,7 @@ function updateMapLocation() {
   }
   state.mapMarker = L.marker([p.lat, p.lon], { title: placeName(p) }).addTo(map);
   state.mapMarker.bindPopup(`<strong>${esc(placeName(p))}</strong><br>${esc(formatCoords(p.lat, p.lon))}`);
-  map.flyTo([p.lat, p.lon], p.id ? 9 : 8, { duration: 0.8 });
+  map.flyTo([p.lat, p.lon], 5, { duration: 0.8 });
 }
 function applyPlace(place, reload = true) {
   state.place = savePlace(place);
@@ -365,7 +365,7 @@ async function initRadar() {
       boxZoom: true,
       keyboard: true,
       zoomSnap: 0.5,
-    }).setView([state.place.lat, state.place.lon], 7);
+    }).setView([state.place.lat, state.place.lon], 5);
     L.control.zoom({ position: "bottomright" }).addTo(state.map);
     L.control.attribution({
       position: "bottomleft",

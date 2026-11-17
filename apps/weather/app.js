@@ -61,7 +61,7 @@ function updateMapLocation() {
   }
   state.mapMarker = L.marker([p.lat, p.lon], { title: placeName(p) }).addTo(map);
   state.mapMarker.bindPopup(`<strong>${esc(placeName(p))}</strong><br>${esc(formatCoords(p.lat, p.lon))}`);
-  map.flyTo([p.lat, p.lon], p.id ? 8 : 7, { duration: 0.8 });
+  map.flyTo([p.lat, p.lon], 5, { duration: 0.8 });
 }
 
 function applyPlace(place, reload = true) {
@@ -276,7 +276,7 @@ function initMap(){
   state.map=L.map(el,{
     zoomControl:false, attributionControl:false,
     scrollWheelZoom:true, touchZoom:true, doubleClickZoom:true, boxZoom:true, keyboard:true, zoomSnap:0.5
-  }).setView([state.place.lat,state.place.lon],6);
+  }).setView([state.place.lat,state.place.lon],5);
   L.control.zoom({position:"bottomright"}).addTo(state.map);
   L.control.attribution({position:"bottomleft",prefix:'<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>'}).addTo(state.map);
   refreshMapTiles();

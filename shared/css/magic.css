@@ -33,6 +33,12 @@
   from { opacity: 0; filter: blur(10px); transform: translateY(14px); }
   to { opacity: 1; filter: blur(0); transform: none; }
 }
+/* Never hides content: only motion + blur, so images stay visible even if
+   animations are paused (background tabs, reduced motion, old browsers). */
+@keyframes magic-soft-reveal {
+  from { filter: blur(8px); transform: translateY(12px); }
+  to { filter: blur(0); transform: none; }
+}
 
 /* ---------------------------------------------------------- aurora / hero */
 .magic-hero { position: relative; isolation: isolate; overflow: hidden; }
@@ -99,7 +105,7 @@
 .prose .article-figure { margin: 2rem 0; }
 /* Self-running reveal: content is never stuck invisible if JS/IO is unavailable. */
 .article-figure,
-.author-box { animation: magic-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.author-box { animation: magic-soft-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .article-figure:nth-of-type(2) { animation-delay: 0.08s; }
 .article-figure:nth-of-type(3) { animation-delay: 0.16s; }
 .article-figure-media {
@@ -181,20 +187,30 @@
   box-shadow: 0 18px 44px -24px rgba(2, 8, 23, 0.55);
 }
 .author-avatar {
-  width: 92px;
-  height: 92px;
+  width: 96px;
+  height: 96px;
+  box-sizing: border-box;
   flex: 0 0 auto;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid color-mix(in oklab, var(--primary) 55%, transparent);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--primary) 10%, transparent),
-              0 10px 26px -10px rgba(2, 8, 23, 0.6);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
+  /* Cinematic ring: teal -> indigo -> warm amber */
+  padding: 3px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) content-box,
+    conic-gradient(from 205deg, #22d3ee, #6366f1, #f59e0b, #22d3ee) border-box;
+  filter: saturate(113%) contrast(105%);
+  box-shadow: 0 0 0 5px color-mix(in oklab, var(--primary) 10%, transparent),
+              0 12px 30px -8px rgba(2, 8, 23, 0.72),
+              0 0 24px -8px rgba(34, 211, 238, 0.7);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease, filter 0.5s ease;
 }
 .author-box:hover .author-avatar {
   transform: scale(1.05) rotate(-2deg);
-  box-shadow: 0 0 0 6px color-mix(in oklab, var(--primary) 16%, transparent),
-              0 14px 30px -10px rgba(2, 8, 23, 0.7);
+  filter: saturate(122%) contrast(108%);
+  box-shadow: 0 0 0 7px color-mix(in oklab, var(--primary) 16%, transparent),
+              0 16px 34px -8px rgba(2, 8, 23, 0.8),
+              0 0 34px -6px rgba(245, 158, 11, 0.75);
 }
 .author-copy { min-width: 0; }
 .author-eyebrow {
