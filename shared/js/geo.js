@@ -5,6 +5,9 @@ import { DEFAULTS, STORAGE } from "./config.js";
 import { fetchIp, reverseGeocode } from "./api.js";
 import { getLang } from "./i18n.js";
 
+// Re-exported because both site apps import reverseGeocode from this module.
+export { reverseGeocode };
+
 export function readPlace() {
   try {
     const raw = JSON.parse(localStorage.getItem(STORAGE.place) || "null");

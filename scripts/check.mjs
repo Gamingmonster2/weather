@@ -95,6 +95,70 @@ async function checkJsSyntax(siteId) {
   if (bad) fail(`${siteId}: ${bad} JS syntax error(s)`); else ok(`${siteId}: JS syntax OK (${jsFiles.length} files)`);
 }
 
+async function checkModuleImports(siteId) {
+  const dist = path.join(ROOT, "dist", siteId);
+  const jsFiles = (await walk(dist)).filter((f) => f.endsWith(".js") || f.endsWith(".mjs"));
+  let bad = 0;
+
+  for (const f of jsFiles) {
+    const text = await fs.readFile(f, "utf8");
+    const importRe = /import\s*(?:type\s*)?\{([^}]*)\}\s*from\s*["'](\.[^"']+)["']/g;
+    let m;
+    while ((m = importRe.exec(text))) {
+      const names = m[1]
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map((s) => s.split(/\s+as\s+/)[0].replace(/^type\s+/, "").trim())
+        .filter(Boolean);
+      const target = path.resolve(path.dirname(f), m[2]);
+      if (!(await exists(target))) {
+        console.error(`  missing import target ${m[2]} in ${path.relative(dist, f)}`);
+        bad++;
+        continue;
+      }
+      const src = await fs.readFile(target, "utf8");
+      const exported = new Set();
+
+      const declRe = /export\s+(?:async\s+)?(?:function\*?|const|let|var|class)\s+([A-Za-z_$][\w$]*)/g;
+      let dm;
+      while ((dm = declRe.exec(src))) exported.add(dm[1]);
+
+      const listRe = /export\s*\{([^}]*)\}(?!\s*from)/g;
+      let lm;
+      while ((lm = listRe.exec(src))) {
+        for (const item of lm[1].split(",")) {
+          const bits = item.trim().split(/\s+as\s+/);
+          const name = (bits[bits.length - 1] || "").replace(/^type\s+/, "").trim();
+          if (name) exported.add(name);
+        }
+      }
+
+      const reexportRe = /export\s*\{([^}]*)\}\s*from\s*["'][^"']+["']/g;
+      let rm;
+      while ((rm = reexportRe.exec(src))) {
+        for (const item of rm[1].split(",")) {
+          const bits = item.trim().split(/\s+as\s+/);
+          const name = (bits[bits.length - 1] || "").replace(/^type\s+/, "").trim();
+          if (name) exported.add(name);
+        }
+      }
+
+      if (/export\s*\*\s*from\s*["'][^"']+["']/.test(src)) continue; // star re-exports cannot be resolved here
+
+      for (const name of names) {
+        if (!exported.has(name)) {
+          console.error(`  ${path.relative(dist, f)} imports "${name}" but ${m[2]} does not export it`);
+          bad++;
+        }
+      }
+    }
+  }
+
+  if (bad) fail(`${siteId}: ${bad} unresolved named import(s)`);
+  else ok(`${siteId}: named imports resolve`);
+}
+
 async function checkRequired(siteId) {
   const dist = path.join(ROOT, "dist", siteId);
   const req = ["index.html", "404.html", "sitemap.xml", "robots.txt", "assets/css/tokens.css", "assets/js/app.js", "assets/data/cities.json"];
@@ -111,6 +175,7 @@ async function main() {
     if (!(await exists(dist))) { fail(`dist/${site} does not exist. Run build first.`); continue; }
     await checkRequired(site);
     await checkJsSyntax(site);
+    await checkModuleImports(site);
     await checkLinks(site);
     await checkI18nKeys(site);
   }
