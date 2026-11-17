@@ -34,7 +34,7 @@ function securityHeaders(resp, url) {
     "script-src 'self' https://unpkg.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com",
     "font-src 'self' https://fonts.gstatic.com data:",
-    "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://tilecache.rainviewer.com",
+    "img-src 'self' data: blob: https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://tilecache.rainviewer.com",
     "connect-src 'self' https://api.open-meteo.com https://geocoding-api.open-meteo.com https://air-quality-api.open-meteo.com https://marine-api.open-meteo.com https://earthquake.usgs.gov https://ipwho.is https://api.rainviewer.com https://api.bigdatacloud.net https://wttr.in https://tilecache.rainviewer.com",
     "frame-ancestors 'self'",
     "base-uri 'self'",

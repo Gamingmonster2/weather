@@ -584,6 +584,12 @@ input[type="range"].slider::-moz-range-thumb {
   font-family: var(--font-sans) !important;
   font-size: 0.72rem !important;
 }
+/* Official OSM tiles stay unmodified in light mode; dark mode only dims the
+   base layer so the UI remains readable. Radar tiles are in a different pane
+   and are never filtered. */
+html.dark .osm-base-tiles {
+  filter: brightness(0.62) contrast(1.12) saturate(0.82);
+}
 .leaflet-control-attribution {
   background: color-mix(in oklab, var(--card) 80%, transparent) !important;
   color: var(--muted-foreground) !important;

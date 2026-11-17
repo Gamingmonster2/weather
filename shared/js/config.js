@@ -64,11 +64,13 @@ export const DEFAULTS = {
   id: "tripoli",
 };
 
+/** OpenStreetMap standard tiles, rendered by Leaflet. The same source is used
+ *  in both themes; CSS gently dims the base layer in dark mode to match the UI. */
 export const TILES = {
-  light: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-  dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+  light: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  dark: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
 };
 
 export const STORAGE = {

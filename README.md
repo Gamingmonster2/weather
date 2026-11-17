@@ -7,7 +7,7 @@ This repo unifies **[Rain.ly](https://www.rain.ly/)** (precipitation intelligenc
 - **Runtime:** plain HTML/CSS/JS — no npm runtime dependencies
 - **Design:** shadcn/ui v4 visual language recreated in CSS (oklch tokens, restrained radii/elevation) + Magic UI–inspired motion effects implemented in plain CSS/Canvas
 - **Languages:** Arabic + English with browser-language auto-detection, RTL, and a persisted manual toggle
-- **Data:** free, keyless open APIs (Open-Meteo, RainViewer, USGS, OSM/CARTO, BigDataCloud, ipwho.is, wttr.in fallback)
+- **Data:** free, keyless open APIs (Open-Meteo, RainViewer, USGS, official OpenStreetMap tiles, BigDataCloud, ipwho.is, wttr.in fallback)
 
 ## Repository map
 
@@ -76,6 +76,7 @@ The dashboard structure follows the restrained shadcn/ui v4 visual language. Mot
 - particle/meteor layer behind the interface
 - interactive CSS/Canvas globe with glowing city points
 - condition-based photo backgrounds (clear / cloudy / rain / storm / night) with glass and gradient overlays
+- official OpenStreetMap standard basemap rendered by Leaflet with visible © OpenStreetMap contributors attribution, gently dimmed in dark mode
 - first-visit IP location, GPS button, click-anywhere-on-map forecasting, and worldwide city search
 
 All effects degrade gracefully with `prefers-reduced-motion`.

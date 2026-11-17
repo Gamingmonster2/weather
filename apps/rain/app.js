@@ -407,7 +407,11 @@ function refreshMapTiles() {
   if (!state.map) return;
   const dark = document.documentElement.classList.contains("dark");
   if (state.baseLayer) state.map.removeLayer(state.baseLayer);
-  state.baseLayer = L.tileLayer(dark ? TILES.dark : TILES.light, { attribution: TILES.attribution, maxZoom: 19 }).addTo(state.map);
+  state.baseLayer = L.tileLayer(dark ? TILES.dark : TILES.light, {
+    attribution: TILES.attribution,
+    maxZoom: 19,
+    className: "osm-base-tiles",
+  }).addTo(state.map);
 }
 
 function showRadarFrame(i) {

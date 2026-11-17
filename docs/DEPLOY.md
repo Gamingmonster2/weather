@@ -38,7 +38,7 @@ npm run check   # validates links/assets, JS syntax, i18n keys
 The repo ships a Pages Advanced Mode worker that:
 - serves static assets (`env.ASSETS.fetch`),
 - proxies allowlisted data sources via `/api/fetch?url=...` (CORS/cache/cookie stripping),
-- adds baseline security headers and a CSP allowing required origins (Leaflet unpkg, Google Fonts, CARTO tiles, RainViewer tiles, data APIs).
+- adds baseline security headers and a CSP allowing required origins (Leaflet unpkg, Google Fonts, OpenStreetMap tiles, RainViewer tiles, data APIs).
 
 To use it with a Pages project, deploy it alongside the site's assets per Cloudflare Pages Functions/Advanced Mode conventions (e.g. place/adapt as the project's worker entry for the deployed output) so that `/api/fetch` is handled at the same origin. If the worker is not deployed, the client still attempts direct fetches to the keyless, CORS-enabled providers.
 

@@ -17,7 +17,7 @@ All data sources are **free and keyless**. The client fetches over HTTPS with ti
 | IP geolocation | [ipwho.is](https://ipwho.is/) | `https://ipwho.is/` | coarse fallback location (no key). |
 | Radar frames | [RainViewer](https://www.rainviewer.com/api.html) | `https://api.rainviewer.com/public/weather-maps.json` | past/nowcast frame timestamps/paths; tiles from `https://tilecache.rainviewer.com/...` |
 | Text fallback | [wttr.in](https://wttr.in/:help) | `https://wttr.in/<lat,lon>?format=j1` | best-effort fallback when structured sources fail. |
-| Map tiles | [OpenStreetMap](https://www.openstreetmap.org/) / [CARTO](https://carto.com/basemaps/) | `https://{s}.basemaps.cartocdn.com/.../{z}/{x}/{y}{r}.png` | light (voyager) / dark basemaps via Leaflet. |
+| Map tiles | [OpenStreetMap](https://www.openstreetmap.org/) standard tiles | `https://tile.openstreetmap.org/{z}/{x}/{y}.png` | Official OSM basemap rendered by Leaflet in both themes; dark mode applies a CSS dim only. Attribution: © OpenStreetMap contributors. |
 
 ## Caching & resilience (`shared/js/api.js`)
 
@@ -46,4 +46,4 @@ All data sources are **free and keyless**. The client fetches over HTTPS with ti
 
 ## Attribution
 
-Respect each provider's terms/attribution: Open-Meteo, RainViewer, USGS, © OpenStreetMap contributors, © CARTO, ipwho.is, BigDataCloud, wttr.in. Attribution is surfaced in footers and map controls where applicable.
+Respect each provider's terms/attribution: Open-Meteo, RainViewer, USGS, © OpenStreetMap contributors, ipwho.is, BigDataCloud, wttr.in. Attribution is surfaced in footers and map controls where applicable.
