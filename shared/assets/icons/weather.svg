@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="weather.com.ly icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ecfeff"/>
+      <stop offset="0.55" stop-color="#99f6e4"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ccfbf1"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="204" cy="188" r="62" fill="#fbbf24"/>
+  <path d="M204 100v-22M204 298v-22M116 188H94M314 188h-22M142 126l-16-16M282 266l-16-16M266 126l16-16M126 266l16-16" fill="none" stroke="#fbbf24" stroke-width="14" stroke-linecap="round"/>
+  <path d="M166 322a66 66 0 0 1 8-131 92 92 0 0 1 174 30 56 56 0 0 1 2 111z" fill="url(#cloud)"/>
+  <path d="M122 380c34-22 64-22 98 0s64 22 98 0 64-22 74-12" fill="none" stroke="#0f766e" stroke-opacity="0.78" stroke-width="14" stroke-linecap="round"/>
+  <path d="M158 424h196" fill="none" stroke="#14b8a6" stroke-opacity="0.65" stroke-width="12" stroke-linecap="round"/>
+  <path d="M256 330l-14 28h20l-14 28" fill="none" stroke="#f59e0b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

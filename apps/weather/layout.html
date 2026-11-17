@@ -14,6 +14,10 @@
 <body>
   <a class="skip-link" href="#main" data-i18n="action.skip">Skip to content</a>
   <div class="app-shell">
+    <div class="app-bg" aria-hidden="true">
+      <div class="weather-bg" id="weather-bg"></div>
+      <canvas class="magic-particles" id="magic-particles"></canvas>
+    </div>
     <header class="app-header">
       <div class="container header-inner">
         <a class="brand" href="/" aria-label="weather.com.ly home">
@@ -40,6 +44,9 @@
           </button>
           <button class="icon-btn" id="btn-locate" type="button" data-i18n-aria="action.locate" title="Locate me">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="7.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>
+          </button>
+          <button class="icon-btn" id="btn-install" type="button" data-i18n-aria="pwa.install" data-i18n-title="pwa.install" title="Install app" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M4.5 18.5h15"/></svg>
           </button>
           <button class="icon-btn" id="btn-theme" type="button" data-i18n-aria="label.theme" title="Theme">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 13A9 9 0 1 1 11 3a7.2 7.2 0 0 0 10 10Z"/></svg>
@@ -83,9 +90,20 @@
       </div>
       <div class="container footer-bottom">
         <span>© {{year}} {{siteName}}. <span data-i18n="footer.rights">All rights reserved.</span></span>
+        <span class="footer-credit"><a href="https://www.pexels.com/" rel="noopener">Weather photos: Pexels</a></span>
         <a href="https://github.com/Gamingmonster2/weather" rel="noopener" data-i18n="action.openRepo">Source code</a>
       </div>
     </footer>
+
+    <div class="install-banner" id="install-banner" role="status" aria-live="polite" hidden>
+      <img class="install-icon" src="/assets/icons/{{brand}}-192.png" alt="">
+      <div class="install-copy">
+        <strong data-i18n="pwa.installTitle">Install this app</strong>
+        <span data-i18n="pwa.installBody">Open it from your home screen, just like a native app.</span>
+      </div>
+      <button class="btn btn-sm btn-primary magic-btn install-btn" id="btn-install-go" type="button" data-i18n="pwa.install">Install</button>
+      <button class="icon-btn install-btn" id="btn-install-close" type="button" data-i18n-aria="pwa.dismiss" aria-label="Not now">×</button>
+    </div>
   </div>
 
   <div class="sheet" id="nav-sheet" aria-hidden="true">
@@ -121,6 +139,13 @@
     </div>
   </dialog>
 
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/sw.js").catch(function () {});
+      });
+    }
+  </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script type="module" src="/assets/js/app.js"></script>
 </body>

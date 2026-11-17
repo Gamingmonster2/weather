@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Rain.ly icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="0.55" stop-color="#0b2a44"/>
+      <stop offset="1" stop-color="#0e7490"/>
+    </linearGradient>
+    <linearGradient id="drop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#7dd3fc"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="232" r="158" fill="none" stroke="#7dd3fc" stroke-opacity="0.22" stroke-width="8"/>
+  <circle cx="256" cy="232" r="116" fill="none" stroke="#7dd3fc" stroke-opacity="0.38" stroke-width="8"/>
+  <circle cx="256" cy="232" r="72" fill="none" stroke="#7dd3fc" stroke-opacity="0.55" stroke-width="8"/>
+  <path d="M256 126c-27 38-60 72-60 112a60 60 0 0 0 120 0c0-40-33-74-60-112z" fill="url(#drop)"/>
+  <circle cx="256" cy="232" r="9" fill="#0ea5e9"/>
+  <path d="M182 336l-18 46M256 350l-18 46M330 336l-18 46" fill="none" stroke="#7dd3fc" stroke-width="16" stroke-linecap="round"/>
+</svg>

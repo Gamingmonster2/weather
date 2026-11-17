@@ -63,7 +63,7 @@ flowchart TB
 | Focus | Precipitation intelligence | Meteorological observatory |
 | Brand | Dark-first azure | Light-first teal |
 | Core | Current conditions, hourly rain probability, 7-day accumulation | Current conditions, 7-day forecast |
-| Maps | Always-visible Leaflet/OSM map, click-to-forecast, live radar timeline, interactive globe | Location map with USGS earthquake layer (globe planned) |
+| Maps | Always-visible Leaflet/OSM map, click-to-forecast, live radar timeline, interactive globe | Always-visible Leaflet/OSM observatory map, click-to-forecast, USGS quake layer, interactive globe |
 | Extra | Rain totals, wet days, radar nowcast | Air quality (AQI/PM/dust), marine state, sunrise arc, earthquakes |
 | SEO | Per-city pages, guides, sitemap, structured data | Per-city pages, guides, sitemap, structured data |
 

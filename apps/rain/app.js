@@ -5,6 +5,7 @@ import { comboChart, areaChart, rangeBar } from "./charts.js";
 import { fetchForecast, fetchRadar, fetchMultiCurrent, geocodeSearch, safe } from "./api.js";
 import { readPlace, savePlace, placeName, placeLabel, formatCoords, resolveCurrentLocation, locateBrowser, locateByIp, reverseGeocode } from "./geo.js";
 import { initMagic, setWeatherMood, tickNumber, setGlobePoints, DEFAULT_POINTS } from "./magic.js";
+import { initPwa } from "./pwa.js";
 import { $, $$, on, toast, openDialog, closeDialog, bindDialog, initTabs, openSheet, closeSheet, bindSheet, copyText, sharePage, startRain, debounce, setText, setHTML } from "./ui.js";
 import { loadCities, libyanCities, searchCities, cityToPlace, nearestCities } from "./cities.js";
 
@@ -80,6 +81,7 @@ function setTheme(next) {
 function initShell() {
   initI18n();
   initMagic();
+  initPwa();
   hydrate();
   initTabs();
   bindDialog($("#search-dialog"));
@@ -354,7 +356,21 @@ async function initRadar() {
   const el = $("#radar-map");
   if (!el || typeof L === "undefined") return;
   if (!state.map) {
-    state.map = L.map(el, { zoomControl: true, attributionControl: true }).setView([state.place.lat, state.place.lon], 7);
+    state.map = L.map(el, {
+      zoomControl: false,
+      attributionControl: false,
+      scrollWheelZoom: true,
+      touchZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: true,
+      zoomSnap: 0.5,
+    }).setView([state.place.lat, state.place.lon], 7);
+    L.control.zoom({ position: "bottomright" }).addTo(state.map);
+    L.control.attribution({
+      position: "bottomleft",
+      prefix: '<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>',
+    }).addTo(state.map);
     refreshMapTiles();
     state.map.on("click", async (e) => {
       const lat = e.latlng.lat;
@@ -369,6 +385,8 @@ async function initRadar() {
       applyPlace({ lat, lon, name, source: "map" });
     });
     setTimeout(() => state.map?.invalidateSize(), 120);
+    if ("ResizeObserver" in window) new ResizeObserver(() => state.map?.invalidateSize()).observe(el);
+    window.addEventListener("orientationchange", () => setTimeout(() => state.map?.invalidateSize(), 200));
   }
   updateMapLocation();
   if (state.radarReady) return;
