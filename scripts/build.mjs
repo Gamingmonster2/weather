@@ -189,6 +189,8 @@ async function buildSite(site, cities, allGuides) {
   if (await exists(path.join(ROOT, "shared", "css"))) await copyDir(path.join(ROOT, "shared", "css"), path.join(dist, "assets", "css"));
   if (await exists(path.join(ROOT, "shared", "js"))) await copyDir(path.join(ROOT, "shared", "js"), path.join(dist, "assets", "js"));
   await fs.copyFile(path.join(ROOT, "shared", "data", "cities.json"), path.join(dist, "assets", "data", "cities.json"));
+  const sharedAssets = path.join(ROOT, "shared", "assets");
+  if (await exists(sharedAssets)) await copyDir(sharedAssets, path.join(dist, "assets"));
 
   // site-specific assets
   const appCss = path.join(ROOT, "apps", site.id, `${site.id}.css`);

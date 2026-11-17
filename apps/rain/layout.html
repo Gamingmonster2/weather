@@ -7,12 +7,17 @@
   <link rel="stylesheet" href="/assets/css/components.css">
   <link rel="stylesheet" href="/assets/css/weather.css">
   <link rel="stylesheet" href="/assets/css/brand-rain.css">
+  <link rel="stylesheet" href="/assets/css/magic.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="/assets/js/theme-init.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="action.skip">Skip to content</a>
-  <div class="app-bg" aria-hidden="true"><canvas class="rain-canvas" id="rain-canvas"></canvas></div>
+  <div class="app-bg" aria-hidden="true">
+    <div class="weather-bg" id="weather-bg"></div>
+    <canvas class="magic-particles" id="magic-particles"></canvas>
+    <canvas class="rain-canvas" id="rain-canvas"></canvas>
+  </div>
   <div class="app-shell">
     <header class="app-header">
       <div class="container header-inner">
@@ -86,6 +91,7 @@
       </div>
       <div class="container footer-bottom">
         <span>© {{year}} {{siteName}}. <span data-i18n="footer.rights">All rights reserved.</span></span>
+        <span class="footer-credit"><a href="https://www.pexels.com/" rel="noopener">Weather photos: Pexels</a></span>
         <a href="https://github.com/Gamingmonster2/weather" rel="noopener" data-i18n="action.openRepo">Source code</a>
       </div>
     </footer>

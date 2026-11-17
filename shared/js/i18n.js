@@ -103,6 +103,17 @@ export const DICT = {
     "rain.mmh": "mm/h",
     "rain.chance": "chance",
 
+    "map.title": "Live map & rain radar",
+    "map.subtitle": "Your place, live conditions and precipitation in one view",
+    "map.locate": "Use my location",
+    "map.locating": "Locating…",
+    "map.clickHint": "Tap the map to forecast any point on Earth",
+    "map.myLocation": "Your location",
+    "map.selected": "Selected point",
+    "globe.title": "Live network",
+    "globe.subtitle": "Glowing points mark watched cities",
+    "action.autoLocated": "Approximate location detected — allow GPS for precision.",
+
     "wx.conditions": "Conditions",
     "wx.airQuality": "Air quality",
     "wx.aqi": "AQI",
@@ -177,7 +188,7 @@ export const DICT = {
     "error.offline": "You appear to be offline",
     "error.offlineBody": "The last successful reading is kept on this device.",
     "error.cityNotFound": "City not found",
-    "error.geoDenied": "Location permission was denied — showing Tripoli instead.",
+    "error.geoDenied": "GPS permission was denied — using your approximate area instead.",
     "error.radar": "Radar tiles could not be loaded.",
 
     "units.c": "°C",
@@ -295,6 +306,17 @@ export const DICT = {
     "rain.mmh": "مم/س",
     "rain.chance": "احتمال",
 
+    "map.title": "الخريطة الحية ورادار الأمطار",
+    "map.subtitle": "موقعك والأحوال اللحظية والهطول في مشهد واحد",
+    "map.locate": "استخدام موقعي",
+    "map.locating": "جاري التحديد…",
+    "map.clickHint": "اضغط على الخريطة للحصول على توقع أي نقطة في العالم",
+    "map.myLocation": "موقعك",
+    "map.selected": "النقطة المختارة",
+    "globe.title": "الشبكة الحية",
+    "globe.subtitle": "النقاط المضيئة تمثل المدن المرصودة",
+    "action.autoLocated": "تم تحديد موقع تقريبي — اسمح بـ GPS للحصول على دقة أعلى.",
+
     "wx.conditions": "الأحوال",
     "wx.airQuality": "جودة الهواء",
     "wx.aqi": "مؤشر الهواء",
@@ -369,7 +391,7 @@ export const DICT = {
     "error.offline": "يبدو أنك غير متصل",
     "error.offlineBody": "آخر قراءة ناجحة محفوظة على هذا الجهاز.",
     "error.cityNotFound": "لم يتم العثور على المدينة",
-    "error.geoDenied": "تم رفض إذن الموقع — نعرض طرابلس بدلًا من ذلك.",
+    "error.geoDenied": "تم رفض إذن GPS — نستخدم منطقتك التقريبية بدلًا من ذلك.",
     "error.radar": "تعذّر تحميل بلاطات الرادار.",
 
     "units.c": "°م",

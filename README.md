@@ -5,7 +5,7 @@ One repository, two meteorological products, zero API keys.
 This repo unifies **[Rain.ly](https://www.rain.ly/)** (precipitation intelligence & rain radar) and **[weather.com.ly](https://weather.com.ly/)** (weather, air quality, marine state, and earthquake observatory) into a single, maintainable codebase. Both sites share the same design system, data layer, and build pipeline, but deploy as **two separate Cloudflare Pages projects** with distinct branding and content.
 
 - **Runtime:** plain HTML/CSS/JS — no npm runtime dependencies
-- **Design:** shadcn/ui v4 visual language recreated in CSS (oklch tokens, restrained radii/elevation)
+- **Design:** shadcn/ui v4 visual language recreated in CSS (oklch tokens, restrained radii/elevation) + Magic UI–inspired motion effects implemented in plain CSS/Canvas
 - **Languages:** Arabic + English with browser-language auto-detection, RTL, and a persisted manual toggle
 - **Data:** free, keyless open APIs (Open-Meteo, RainViewer, USGS, OSM/CARTO, BigDataCloud, ipwho.is, wttr.in fallback)
 
@@ -20,9 +20,10 @@ flowchart TB
     end
 
     subgraph shared["shared/ (single source of truth)"]
-      css["css/\ntokens · base · components · weather"]
-      js["js/\nconfig · i18n · api · geo · ui · cities · icons · charts"]
+      css["css/\ntokens · base · components · weather · magic"]
+      js["js/\nconfig · i18n · api · geo · ui · cities · icons · charts · magic"]
       data["data/cities.json"]
+      assets["assets/weather/\ncondition photos"]
     end
 
     subgraph content["content/ (guides, ar/en)"]
@@ -62,9 +63,22 @@ flowchart TB
 | Focus | Precipitation intelligence | Meteorological observatory |
 | Brand | Dark-first azure | Light-first teal |
 | Core | Current conditions, hourly rain probability, 7-day accumulation | Current conditions, 7-day forecast |
-| Maps | RainViewer composite radar with timeline | Location map with USGS earthquake layer |
+| Maps | Always-visible Leaflet/OSM map, click-to-forecast, live radar timeline, interactive globe | Location map with USGS earthquake layer (globe planned) |
 | Extra | Rain totals, wet days, radar nowcast | Air quality (AQI/PM/dust), marine state, sunrise arc, earthquakes |
 | SEO | Per-city pages, guides, sitemap, structured data | Per-city pages, guides, sitemap, structured data |
+
+## Visual system
+
+The dashboard structure follows the restrained shadcn/ui v4 visual language. Motion and atmosphere are added by `shared/css/magic.css` and `shared/js/magic.js`, a dependency-free reinterpretation of popular Magic UI effects:
+
+- animated aurora/grid hero and rotating border beams on the active cards
+- number tickers for temperature and humidity
+- particle/meteor layer behind the interface
+- interactive CSS/Canvas globe with glowing city points
+- condition-based photo backgrounds (clear / cloudy / rain / storm / night) with glass and gradient overlays
+- first-visit IP location, GPS button, click-anywhere-on-map forecasting, and worldwide city search
+
+All effects degrade gracefully with `prefers-reduced-motion`.
 
 ## Quick start
 
@@ -90,7 +104,7 @@ npm run verify
 
 `scripts/build.mjs` produces two fully self-contained static sites:
 
-1. Copies `shared/css`, `shared/js`, and `shared/data/cities.json` into each `dist/<site>/assets/`.
+1. Copies `shared/css`, `shared/js`, `shared/assets`, and `shared/data/cities.json` into each `dist/<site>/assets/`.
 2. Copies site-specific `brand.css`, `app.js`, and `assets/` (favicon, OG image).
 3. Renders every page by injecting `apps/<site>/pages/*.html` into `apps/<site>/layout.html` with `{{placeholders}}`.
 4. Generates `index`, `about`, `guides`, `cities`, `404`, one page per Libyan city (`city/<id>.html`), and one page per guide (`guides/<slug>.html`, with Arabic/English content toggled by language).
@@ -104,9 +118,10 @@ npm run verify
 │  ├─ rain/                 # Rain.ly layout, pages, brand.css, app.js, assets
 │  └─ weather/              # weather.com.ly layout, pages, brand.css, app.js, assets
 ├─ shared/
-│  ├─ css/                  # shadcn tokens + base + components + weather primitives
-│  ├─ js/                   # config, i18n, api, geo, ui, cities, icons, charts
-│  └─ data/cities.json      # Libyan + world cities and climate zone text
+│  ├─ css/                  # shadcn tokens + base + components + weather + magic effects
+│  ├─ js/                   # config, i18n, api, geo, ui, cities, icons, charts, magic
+│  ├─ data/cities.json      # Libyan + world cities and climate zone text
+│  └─ assets/weather/       # condition-based photographic backgrounds (Pexels)
 ├─ content/
 │  ├─ rain/                 # guide markdown (ar/en)
 │  └─ weather/              # guide markdown (ar/en)

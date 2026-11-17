@@ -3,7 +3,8 @@ import { initI18n, t, getLang, setLang, toggleLang, wmo, num, temp, tempUnit, ti
 import { icon, glyph, hydrate } from "./icons.js";
 import { comboChart, areaChart, rangeBar } from "./charts.js";
 import { fetchForecast, fetchRadar, fetchMultiCurrent, geocodeSearch, safe } from "./api.js";
-import { readPlace, savePlace, placeName, placeLabel, formatCoords, resolveCurrentLocation, locateBrowser, reverseGeocode } from "./geo.js";
+import { readPlace, savePlace, placeName, placeLabel, formatCoords, resolveCurrentLocation, locateBrowser, locateByIp, reverseGeocode } from "./geo.js";
+import { initMagic, setWeatherMood, tickNumber, setGlobePoints, DEFAULT_POINTS } from "./magic.js";
 import { $, $$, on, toast, openDialog, closeDialog, bindDialog, initTabs, openSheet, closeSheet, bindSheet, copyText, sharePage, startRain, debounce, setText, setHTML } from "./ui.js";
 import { loadCities, libyanCities, searchCities, cityToPlace, nearestCities } from "./cities.js";
 
@@ -15,11 +16,56 @@ const state = {
   radarIndex: 0,
   radarLayer: null,
   map: null,
+  mapMarker: null,
+  accuracyCircle: null,
+  radarReady: false,
   rainFx: null,
   units: readUnits(),
 };
 
 function qs(name) { return new URL(location.href).searchParams.get(name); }
+function esc(s) { return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function rainingNow() {
+  const c = state.forecast?.current;
+  if (!c) return false;
+  return (c.precipitation || 0) > 0 || (c.rain || 0) > 0 || (c.showers || 0) > 0;
+}
+function globePoints() {
+  const here = {
+    lat: state.place.lat,
+    lon: state.place.lon,
+    label: placeName(state.place),
+    rain: rainingNow(),
+  };
+  return [here, ...DEFAULT_POINTS.filter((p) => Math.abs(p.lat - here.lat) > 0.01 || Math.abs(p.lon - here.lon) > 0.01)];
+}
+function updatePlaceCard() {
+  setText($("#map-place"), placeName(state.place));
+  setText($("#map-coords"), formatCoords(state.place.lat, state.place.lon));
+  setText($("#map-source"), state.place.source === "gps" ? t("map.myLocation") : (state.place.source || "IP").toUpperCase());
+  setGlobePoints(globePoints(), state.place);
+}
+function updateMapLocation() {
+  const map = state.map;
+  if (!map || typeof L === "undefined") return;
+  const p = state.place;
+  if (state.mapMarker) { map.removeLayer(state.mapMarker); state.mapMarker = null; }
+  if (state.accuracyCircle) { map.removeLayer(state.accuracyCircle); state.accuracyCircle = null; }
+  if (Number.isFinite(p.accuracy) && p.accuracy > 0) {
+    state.accuracyCircle = L.circle([p.lat, p.lon], {
+      radius: p.accuracy, color: "#4aa8ff", weight: 1, fillColor: "#4aa8ff", fillOpacity: 0.08,
+    }).addTo(map);
+  }
+  state.mapMarker = L.marker([p.lat, p.lon], { title: placeName(p) }).addTo(map);
+  state.mapMarker.bindPopup(`<strong>${esc(placeName(p))}</strong><br>${esc(formatCoords(p.lat, p.lon))}`);
+  map.flyTo([p.lat, p.lon], p.id ? 9 : 8, { duration: 0.8 });
+}
+function applyPlace(place, reload = true) {
+  state.place = savePlace(place);
+  updateMapLocation();
+  updatePlaceCard();
+  if (reload) loadForecast(true);
+}
 
 function setTheme(next) {
   const html = document.documentElement;
@@ -33,6 +79,7 @@ function setTheme(next) {
 
 function initShell() {
   initI18n();
+  initMagic();
   hydrate();
   initTabs();
   bindDialog($("#search-dialog"));
@@ -47,7 +94,12 @@ function initShell() {
   on($("#btn-menu"), "click", () => openSheet("nav-sheet"));
   on($("#open-search"), "click", () => { openDialog("search-dialog"); $("#search-input")?.focus(); });
   on($("#btn-locate"), "click", locateMe);
+  on($("#map-locate"), "click", locateMe);
   on($("#btn-refresh"), "click", () => loadForecast(true));
+  window.addEventListener("wx:globe-select", (e) => {
+    const p = e.detail;
+    if (p) applyPlace({ lat: p.lat, lon: p.lon, name: { ar: p.label, en: p.label }, source: "globe" });
+  });
   on($("#btn-share"), "click", () => sharePage({ title: document.title, url: location.href }));
 
   // keyboard shortcut for search
@@ -99,29 +151,33 @@ async function doSearch(q) {
       region: { ar: btn.dataset.regionAr, en: btn.dataset.regionEn },
       source: "search",
     };
-    state.place = savePlace(place);
     closeDialog("search-dialog");
-    loadForecast(true);
+    applyPlace(place);
   }));
 }
 
 async function locateMe() {
+  toast(t("action.locating"));
   try {
-    toast(t("action.locating"));
     const pos = await locateBrowser();
     let name = DEFAULTS.name;
     try {
       const rev = await reverseGeocode(pos.lat, pos.lon);
       const r = rev.data || {};
-      const city = r.city || r.locality || r.principalSubdivision || DEFAULTS.name.en;
+      const city = r.city || r.locality || r.principalSubdivision || placeName(state.place);
       name = { ar: city, en: city };
     } catch {}
-    state.place = savePlace({ lat: pos.lat, lon: pos.lon, name, source: "gps" });
-    loadForecast(true);
+    applyPlace({ lat: pos.lat, lon: pos.lon, accuracy: pos.accuracy, name, source: "gps" });
+    return;
   } catch {
+    /* GPS denied or unavailable — fall back to IP */
+  }
+  const ip = await safe(() => locateByIp(), null);
+  if (ip) {
+    applyPlace(ip);
+    toast(t("action.autoLocated"));
+  } else {
     toast(t("error.geoDenied"), { type: "error" });
-    state.place = savePlace(DEFAULTS);
-    loadForecast(true);
   }
 }
 
@@ -161,6 +217,7 @@ function renderHero() {
   if (!f || !f.current) {
     setText($("#hero-place"), placeLabel(p));
     setText($("#loc-name"), placeName(p));
+    updatePlaceCard();
     return;
   }
   const cur = f.current;
@@ -169,12 +226,13 @@ function renderHero() {
   setText($("#loc-name"), placeName(p));
   setText($("#loc-region"), p.region ? (getLang()==="ar"?p.region.ar:p.region.en) : (p.country||""));
   setText($("#loc-coords"), formatCoords(p.lat, p.lon));
-  setText($("#temp-now"), Math.round(cur.temperature_2m));
+  tickNumber($("#temp-now"), Math.round(cur.temperature_2m));
+  setWeatherMood(cur.weather_code, cur.is_day !== 0);
   setText($("#temp-unit"), tempUnit(readUnits().temp));
   setText($("#cond-text"), info.text);
   setHTML($("#cond-glyph"), glyph(info.icon, { size: 110, label: info.text }));
   setText($("#feels-like"), `${Math.round(cur.apparent_temperature)}°`);
-  setText($("#stat-humidity"), `${num(cur.relative_humidity_2m)}%`);
+  tickNumber($("#stat-humidity"), Number(cur.relative_humidity_2m), { suffix: "%" });
   setText($("#stat-wind"), `${num(cur.wind_speed_10m)} ${t("units.kmh")}`);
   const hIdx = pickHourIndex(f.hourly.time);
   const pop = f.hourly.precipitation_probability ? f.hourly.precipitation_probability[hIdx] : null;
@@ -206,6 +264,7 @@ function renderHero() {
   const raining = (cur.precipitation || 0) > 0.1;
   if (raining && !state.rainFx && $("#rain-canvas")) state.rainFx = startRain($("#rain-canvas"));
   if (!raining && state.rainFx) { state.rainFx.stop(); state.rainFx = null; }
+  updatePlaceCard();
 }
 
 function renderHourly() {
@@ -297,8 +356,23 @@ async function initRadar() {
   if (!state.map) {
     state.map = L.map(el, { zoomControl: true, attributionControl: true }).setView([state.place.lat, state.place.lon], 7);
     refreshMapTiles();
-    L.marker([state.place.lat, state.place.lon]).addTo(state.map);
+    state.map.on("click", async (e) => {
+      const lat = e.latlng.lat;
+      const lon = e.latlng.lng;
+      let name = { ar: formatCoords(lat, lon), en: formatCoords(lat, lon) };
+      try {
+        const rev = await reverseGeocode(lat, lon);
+        const r = rev.data || {};
+        const city = r.city || r.locality || r.principalSubdivision || formatCoords(lat, lon);
+        name = { ar: city, en: city };
+      } catch {}
+      applyPlace({ lat, lon, name, source: "map" });
+    });
+    setTimeout(() => state.map?.invalidateSize(), 120);
   }
+  updateMapLocation();
+  if (state.radarReady) return;
+  state.radarReady = true;
   const res = await safe(() => fetchRadar(), null);
   if (!res || !res.data) { toast(t("error.radar"), { type: "error" }); return; }
   state.radar = res.data;
@@ -405,17 +479,22 @@ async function main() {
   const lat = qs("lat"), lon = qs("lon");
   if (lat && lon) {
     state.place = savePlace({ lat: Number(lat), lon: Number(lon), name: { ar: qs("name")||"موقع", en: qs("name")||"Location" }, source: "url" });
-  } else if (!readPlace().id && readPlace().source === "default") {
-    // keep default; optionally resolve later
+  } else {
+    const stored = readPlace();
+    if (stored.source === "default") {
+      const ip = await safe(() => locateByIp(), null);
+      if (ip) {
+        state.place = savePlace(ip);
+        toast(t("action.autoLocated"));
+      }
+    }
   }
   if ($("#current-card") || $("#hourly-chart") || document.querySelector("[data-city-page]")) {
     await loadForecast();
   }
   await renderCitiesGrid();
-  // init radar when tab activated or if map present
-  const radarTab = document.querySelector('[data-tab="tab-radar"]');
-  if (radarTab) on(radarTab, "click", () => { setTimeout(initRadar, 50); }, { once: true });
-  if ($("#radar-map") && document.querySelector("#tab-radar")?.classList.contains("is-active")) initRadar();
+  if ($("#radar-map")) initRadar();
+  updatePlaceCard();
 
   // guides language toggle visibility
   const applyGuideLang = () => {
