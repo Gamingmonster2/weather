@@ -4,6 +4,8 @@ One repository, two meteorological products, zero API keys.
 
 This repo unifies **[Rain.ly](https://www.rain.ly/)** (precipitation intelligence & rain radar) and **[weather.com.ly](https://weather.com.ly/)** (weather, air quality, marine state, and earthquake observatory) into a single, maintainable codebase. Both sites share the same design system, data layer, and build pipeline, but deploy as **two separate Cloudflare Pages projects** with distinct branding and content.
 
+> **Two repositories, one source:** this repo is the original. The second site is deployed from a linked fork, [`Gamingmonster2/weather-2`](https://github.com/Gamingmonster2/weather-2). Cloudflare Pages only allows one Git-connected project per repository, so the fork is used solely to connect the second Pages project. See [docs/DEPLOY.md](docs/DEPLOY.md).
+
 - **Runtime:** plain HTML/CSS/JS — no npm runtime dependencies
 - **Design:** shadcn/ui v4 visual language recreated in CSS (oklch tokens, restrained radii/elevation) + Magic UI–inspired motion effects implemented in plain CSS/Canvas
 - **Languages:** Arabic + English with browser-language auto-detection, RTL, and a persisted manual toggle

@@ -1,153 +1,122 @@
 # Deployment / النشر
 
-This repo is the **single source of truth** for two sites built from one build step:
+هذا المستودع هو **المصدر الأساسي** للكود. من مصدر واحد يتم بناء موقعين:
 
-| Project | Build output | Intended domain | Deployment method |
-|---|---|---|---|
-| Rain.ly | `dist/rain` | `www.rain.ly` | Cloudflare Pages — Git integration (already running) |
-| weather.com.ly | `dist/weather` | `weather.com.ly` | Cloudflare Pages — Direct Upload via GitHub Actions |
+| الموقع | مجلد الإخراج | الدومين | المستودع | مشروع Cloudflare Pages |
+|---|---|---|---|---|
+| Rain.ly | `dist/rain` | `www.rain.ly` | `Gamingmonster2/weather` (هذا) | المشروع الحالي المرتبط بـ Git |
+| weather.com.ly | `dist/weather` | `weather.com.ly` | `Gamingmonster2/weather-2` (Fork مرتبط) | مشروع ثانٍ مرتبط بـ Git |
 
-Each `dist/<site>` is self-contained: pages, assets, data, `robots.txt`, `sitemap.xml`,
-`manifest.webmanifest`, `sw.js`, PWA icons and the Pages Advanced Mode worker `_worker.js`.
-
----
-
-## المشكلة: كلاود فلير يرفض ربط نفس المستودع بمشروعين
-
-> "عند محاولة بناء الموقع بنفس المستودع يعطيك كلاود فلير أن المستودع مستخدم."
-
-هذا سلوك طبيعي في Pages: **كل مستودع GitHub يمكن ربطه بمشروع Pages واحد فقط عبر Git integration**.
-الحل الأفضل لا يحتاج إنشاء مستودع ثانٍ ولا يحتاج workers بدل Pages:
-
-**الحل الموصى به:** أبقِ Rain.ly على مشروع Pages المرتبط بـ Git كما هو، وأنشئ مشروع Pages
-ثانياً لـ weather.com.ly كـ **Direct Upload** (بدون ربط Git)، ثم انشره تلقائياً من GitHub Actions
-الموجود في هذا المستودع عبر `wrangler pages deploy`. هكذا يبقى هذا المستودع مصدراً واحداً للكود،
-ويتم تحديث الموقعين تلقائياً عند كل `push` على `main`.
-
-### لماذا هذا هو الأفضل؟
-
-- ✅ مستودع واحد فقط — لا نسخ مكررة ولا مزامنة يدوية.
-- ✅ لا تغيير على Rain.ly الذي يعمل بالفعل.
-- ✅ نشر تلقائي للموقع الثاني عند كل تحديث، مع إمكانية التشغيل اليدوي عبر زر `Run workflow`.
-- ✅ يعمل على الخطة المجانية (Free) دون متطلبات إضافية.
+كل مجلد `dist/<site>` مستقل تماماً: صفحات، أصول، بيانات، `robots.txt`، `sitemap.xml`،
+`manifest.webmanifest`، `sw.js`، أيقونات PWA، وملف `_worker.js` الخاص بـ Pages Advanced Mode.
 
 ---
 
-## The same-repo limitation (English)
+## لماذا مستودع ثانٍ؟ / Why a second repo?
 
-Cloudflare Pages allows a GitHub repository to be connected to **one Git-integrated project only**.
-Connecting the same repo to a second project produces the "repository already used" error.
+Cloudflare Pages يسمح بربط **مستودع GitHub واحد بمشروع Pages واحد فقط** عبر Git integration.
+لذلك لا يمكن ربط هذا المستودع بمشروعين. الحل المختار (الأبسط):
 
-**Recommended fix:** keep Rain.ly on its existing Git-connected Pages project, create the
-weather.com.ly project as a **Direct Upload** project (no Git connection), and publish it from
-the included GitHub Actions workflow using `wrangler pages deploy`. One repo, two sites, both
-auto-updated on every push to `main`.
+- ننشئ **Fork** من هذا المستودع باسم `weather-2` — GitHub يربطه تلقائياً بالمستودع الأصلي
+  (يظهر "forked from Gamingmonster2/weather")، فيبقى المستودعان مرتبطين.
+- نربط الـ Fork بمشروع Pages الثاني كأي مشروع عادي.
+- عند التحديث نرفع نفس الكود إلى الاثنين بأمرين في الطرفية (أو نستخدم مزامنة تلقائية اختيارية).
 
-Alternatives (documented below): Workers Static Assets, or a second mirrored repository.
+لا حاجة لـ Secrets أو GitHub Actions أو Direct Upload أو Workers.
 
----
-
-## Option A — Recommended: Git (Rain) + Direct Upload via Actions (weather)
-
-### 1. Create the second Pages project (one time)
-
-In Cloudflare dashboard: **Workers & Pages → Create → Pages → Upload assets**.
-
-- Project name: `weather-com-ly` (must match the workflow).
-- Upload any temporary folder to finish creating the project, then continue below.
-- Do **not** try to connect the GitHub repo here — that is the step Cloudflare blocks.
-
-### 2. Add the two secrets to this repository
-
-GitHub repo → **Settings → Secrets and variables → Actions → New repository secret**:
-
-| Secret | Where to get it |
-|---|---|
-| `CLOUDFLARE_API_TOKEN` | Cloudflare → My Profile → API Tokens → Create token with **Account:Workers Scripts:Edit**, **Account:Account Settings:Read**, **User:User Details:Read** (or use the "Edit Cloudflare Workers" template). |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard → right sidebar → **Account ID**. |
-
-### 3. Push to `main`
-
-The workflow `.github/workflows/deploy-weather.yml` runs automatically:
-
-1. `npm run build` → builds both sites and copies `workers/_worker.js` into each output.
-2. `npx wrangler pages deploy dist/weather --project-name=weather-com-ly --branch=main`.
-
-You can also trigger it manually from **Actions → Deploy weather.com.ly → Run workflow**.
-
-### 4. Attach the custom domain
-
-In the `weather-com-ly` project → **Custom domains → Set up a custom domain** → `weather.com.ly`.
-Do the same for `www.rain.ly` on the Rain.ly project. Ensure DNS/SSL is set to HTTPS (see notes).
-
-### Rain.ly build settings (unchanged, for reference)
-
-- Build command: `npm run build` (the worker is now copied by the build itself).
-- Build output directory: `dist/rain`.
-- Deploy command: **leave empty** — `npx wrangler deploy` in that field breaks Pages builds.
-- Node version: 18+ (`NODE_VERSION=20` recommended).
+> ملاحظة: لا تقم بتخزين بلاطات الخريطة داخل المستودع أو Releases. سياسة
+> OpenStreetMap تمنع صراحةً تحميل البلاطات بالجملة أو توزيع أرشيفاتها للاستخدام دون اتصال:
+> https://operations.osmfoundation.org/policies/tiles/
+> الخريطة تعمل عبر بلاطات OSM الرسمية مع كاش المتصفح الطبيعي، وهذا مسموح وموثوق.
 
 ---
 
-## Option B — Workers Static Assets instead of Pages (also one repo)
+## الخطوات العملية / Steps
 
-If you prefer Workers, create a `wrangler.toml` for the Weather output and deploy it from an
-Action the same way. The existing `workers/_worker.js` already exposes `/api/fetch`; bind the
-static output to it:
+### 1. أنشئ الـ Fork
 
-```toml
-name = "weather-com-ly"
-main = "workers/_worker.js"
-compatibility_date = "2026-01-01"
+على GitHub افتح https://github.com/Gamingmonster2/weather واضغط **Fork**، واجعل الاسم
+`weather-2` (يفضّل اسم إنجليزي خالٍ من المسافات حتى يكون رابط المستودع نظيفاً لـ Cloudflare).
+سيظهر الـ Fork مرتبطاً بالمستودع الأصلي تلقائياً.
 
-[assets]
-directory = "./dist/weather"
-binding = "ASSETS"
-```
+> إن فضّلت مستودعاً جديداً فارغاً بدل Fork: أنشئه ثم ادفع الكود إليه بالأوامر أدناه — لكنك
+> ستفقد رابط "forked from" التلقائي؛ يمكنك إضافته يدوياً في README كل مستودع.
 
-Deploy with `npx wrangler deploy`. This keeps one repo too, but you lose the Pages-specific
-preview deployments/branding, so Option A is usually simpler for a site like this.
+### 2. اربط Fork بمشروع Pages الثاني
+
+Cloudflare → **Workers & Pages → Create → Pages → Connect to Git** → اختر `Gamingmonster2/weather-2`.
+
+إعدادات البناء لكلا المشروعين:
+
+- **Build command:** `npm run build` (يقوم تلقائياً بنسخ `workers/_worker.js` داخل مجلدي الإخراج).
+- **Build output directory:** `dist/rain` للمشروع الأول، `dist/weather` للمشروع الثاني.
+- **Deploy command:** اتركه **فارغاً** — كتابة `npx wrangler deploy` فيه تُفشل بناء Pages.
+- **Node version:** 18+ (`NODE_VERSION=20` موصى به).
+
+### 3. اربط الدومينات
+
+- مشروع Rain → Custom domains → `www.rain.ly`.
+- مشروع weather → Custom domains → `weather.com.ly`.
+- تأكد من SSL/HTTPS صحيح (كانت هناك أخطاء 525 سابقاً).
 
 ---
 
-## Option C — Second mirrored repository (simplest concept, least ideal)
+## مزامنة المستودعين / Keeping them in sync
 
-Create `Gamingmonster2/weather-weather` and push the same code there:
+من نسختك المحلية أضف الـ Fork كـ remote إضافي مرة واحدة:
 
 ```bash
-git remote add weather https://github.com/Gamingmonster2/weather-weather.git
-git push weather main
+git remote add weather2 https://github.com/Gamingmonster2/weather-2.git
 ```
 
-Then connect that repo to the second Pages project as usual. It works, but now you maintain two
-repos and must remember to push to both — Option A avoids that.
+بعد كل تعديل ودمج على `main`، ادفع إلى الاثنين:
+
+```bash
+git push origin main
+git push weather2 main
+```
+
+وإن أردت سحب أي تحديث من الأصل إلى Fork لاحقاً:
+
+```bash
+git fetch origin
+git checkout main
+git merge origin/main
+git push weather2 main
+```
+
+> بديل اختياري إذا أردت مزامنة تلقائية: أضف ملف workflow بسيط في الـ Fork يسحب من
+> `upstream` كل يوم أو عند كل push. لا نحتاجه الآن — الطريقتان أعلاه كافيتان.
 
 ---
 
-## Build & local checks
+## البدائل (إن غيّرت رأيك لاحقاً)
+
+- **GitHub Actions + Direct Upload:** إنشاء مشروع Pages ثانٍ بنوع Direct Upload ونشره من نفس
+  المستودع عبر `wrangler pages deploy dist/weather` — مستودع واحد بلا Fork، لكن يحتاج سريين
+  (`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`) وملف workflow.
+- **Workers Static Assets:** استخدام `workers/_worker.js` مع `[assets] directory = "./dist/weather"`
+  في `wrangler.toml`. يعمل لكنه يفقد مزايا Pages.
+
+## البناء والفحص المحلي
 
 ```bash
-npm run verify   # build + link/asset/JS/i18n checks
+npm run verify   # بناء + فحص الروابط/الأصول/JS/i18n
 npm run serve
 # http://127.0.0.1:8788/  -> dist/rain
 # http://127.0.0.1:8789/  -> dist/weather
 ```
 
-Separate ports are used because assets are referenced with root-absolute paths.
-
 ## Worker (`workers/_worker.js`)
 
-- Serves static assets via `env.ASSETS.fetch`.
-- Proxies allowlisted keyless APIs via `/api/fetch?url=...` (CORS/cache/cookie stripping).
-- Adds baseline security headers and CSP (Leaflet unpkg, Google Fonts, OSM and RainViewer tiles, data APIs).
+- يقدّم الملفات الثابتة عبر `env.ASSETS.fetch`.
+- يوكّل مصادر البيانات المجانية عبر `/api/fetch?url=...` مع تنظيف CORS والكاش والكوكيز.
+- يضيف ترويسات أمان و CSP.
+- يُنسخ تلقائياً إلى `dist/rain` و `dist/weather` بواسطة `npm run build`، لذلك يعمل `/api/fetch`
+  على نفس الدومين في وضع Pages Advanced Mode.
 
-It is copied into `dist/rain` and `dist/weather` by `npm run build`, so Pages Advanced Mode
-activates `/api/fetch` on the same origin automatically. When adding a provider, update `ALLOW`,
-the CSP directives in `workers/_worker.js`, and the endpoints in `shared/js/config.js` / `api.js`.
+## ملاحظات تشغيلية
 
-## Operational notes
-
-- **HTTPS:** ensure Cloudflare SSL mode/certificate is valid for `weather.com.ly` (past 525 errors).
-- **Legacy key:** revoke/rotate the old exposed OpenWeatherMap key from the prior Blogger site; this repo does not use it.
-- **Caching:** static assets can be cached aggressively; the worker sets short cache headers for proxied API responses.
-- **Content updates:** adding a city or guide is a content/build change — the Action rebuilds and redeploys on push.
+- **HTTPS:** تأكد من شهادة/وضع SSL صالح لـ `weather.com.ly`.
+- **المفتاح القديم:** ألغِ/بدّل مفتاح OpenWeatherMap القديم المسرب من الموقع السابق؛ هذا الكود لا يستخدمه.
+- **التحديثات:** إضافة مدينة أو دليل = تغيير محتوى؛ ابني وأعد النشر (أو ادفع إلى المستودعين).
