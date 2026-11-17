@@ -1,0 +1,23 @@
+; ============================================================
+; weather.com.ly — ready DNS records (BIND / zone-file format)
+; Purpose: point weather.com.ly to the EXISTING working Rain.ly
+;          Cloudflare Pages project until project 2 is built.
+;
+; IMPORTANT: verify the CNAME target first.
+;   Cloudflare -> Workers & Pages -> your Rain.ly project -> Domains
+;   Copy the "*.pages.dev" domain shown there and replace
+;   weather-cs8.pages.dev below if it is different.
+; ============================================================
+
+$TTL 600
+@    IN  CNAME   weather-cs8.pages.dev.
+www  IN  CNAME   weather-cs8.pages.dev.
+
+; ------------------------------------------------------------
+; If your DNS provider does NOT allow CNAME at the apex (@),
+; use ALIAS/ANAME if available, pointing to the same target:
+; @    ALIAS   weather-cs8.pages.dev.
+;
+; If ALIAS is not available either, keep DNS hosted in Cloudflare
+; (recommended) — Cloudflare flattens the apex CNAME automatically.
+; ------------------------------------------------------------

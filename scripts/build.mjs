@@ -334,9 +334,17 @@ async function buildSite(site, cities, allGuides) {
 
   // Core pages
   await writePage("index.html", "index", pageMeta(site, "index", { path: "/" }));
-  await writePage("about.html", "about", pageMeta(site, "about", { path: "/about.html", title: "About" }));
-  await writePage("guides.html", "guides", pageMeta(site, "guides", { path: "/guides.html", title: "Guides" }));
-  await writePage("cities.html", "cities", pageMeta(site, "cities", { path: "/cities.html", title: "Cities" }));
+  await writePage("about.html", "about", pageMeta(site, "about", { path: "/about.html", title: `${site.name} — About this weather project` }));
+  await writePage("guides.html", "guides", pageMeta(site, "guides", {
+    path: "/guides.html",
+    title: `${site.name} — Rain radar & weather guides`,
+    description: `Bilingual guides to live rain maps, radar, hourly forecasts and weather in Libya from ${site.name}.`,
+  }));
+  await writePage("cities.html", "cities", pageMeta(site, "cities", {
+    path: "/cities.html",
+    title: `${site.name} — Libyan cities & live weather`,
+    description: `Live weather, rain and forecast conditions for cities across Libya on ${site.name}.`,
+  }));
   await writePage("404.html", "404", pageMeta(site, "404", { path: "/404.html", title: "Not found" }));
 
   // City pages (Libyan)

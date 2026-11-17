@@ -1,0 +1,3 @@
+Type,Name,Value,TTL
+CNAME,weather.com.ly,weather-cs8.pages.dev,600
+CNAME,www.weather.com.ly,weather-cs8.pages.dev,600
