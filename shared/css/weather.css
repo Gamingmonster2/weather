@@ -470,8 +470,34 @@ html[lang="ar"] .chart-axis text { font-family: var(--font-arabic); }
 .daily-cond { font-size: 0.7rem; color: var(--muted-foreground); }
 
 @media (max-width: 620px) {
-  .daily-row { grid-template-columns: 4.4rem 2rem minmax(0, 1fr) 4.6rem; }
-  .daily-precip { display: none; }
+  /* Keep every value visible: precipitation moves to its own line instead of
+     being hidden. No fixed widths that can force the whole page to zoom out. */
+  .daily-row {
+    grid-template-columns: 4.6rem 2.2rem minmax(0, 1fr);
+    grid-template-areas:
+      "day icon body"
+      "precip precip precip";
+    gap: 0.35rem 0.5rem;
+    padding: 0.7rem 0.35rem;
+  }
+  .daily-row > :nth-child(1) { grid-area: day; min-width: 0; }
+  .daily-row > :nth-child(2) { grid-area: icon; }
+  .daily-row > :nth-child(3) { grid-area: body; min-width: 0; }
+  .daily-row > :nth-child(4) { grid-area: precip; }
+  .daily-precip {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    text-align: start;
+    font-size: 0.72rem;
+  }
+  .daily-precip::before {
+    content: "💧";
+    font-size: 0.7rem;
+    line-height: 1;
+  }
+  .daily-precip.is-dry::before { content: "·"; }
 }
 
 /* -------------------------------------------------------------------- map */

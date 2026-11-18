@@ -169,7 +169,7 @@ function headTags(meta) {
   const altAr = meta.canonical.replace(/\/$/, "") || meta.canonical;
   return `
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>${meta.title}</title>
   <meta name="description" content="${meta.description}">
   <meta name="color-scheme" content="light dark">
