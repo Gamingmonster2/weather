@@ -5,6 +5,7 @@ title: Coastal winds, waves and marine safety in Libya
 description: How to read wind, wave height and sea temperature for safer trips along Libya's Mediterranean coast.
 date: 2026-05-16
 read: 6
+image: /assets/articles/sea-waves-cloudy.jpg
 ---
 
 # Coastal winds, waves and marine safety in Libya

@@ -159,6 +159,57 @@ async function checkModuleImports(siteId) {
   else ok(`${siteId}: named imports resolve`);
 }
 
+/* Dynamic meta / Open Graph / JSON-LD integrity across every built page. */
+async function checkMeta(siteId) {
+  const dist = path.join(ROOT, "dist", siteId);
+  const files = (await walk(dist)).filter((f) => f.endsWith(".html"));
+  const seenTitles = new Map();
+  let bad = 0;
+  for (const file of files) {
+    const html = await fs.readFile(file, "utf8");
+    const rel = path.relative(dist, file).replace(/\\/g, "/");
+    const grab = (re) => (html.match(re) || [])[1];
+    const title = grab(/<title>([\s\S]*?)<\/title>/);
+    const description = grab(/<meta name="description" content="([^"]*)"/);
+    const canonical = grab(/<link rel="canonical" href="([^"]*)"/);
+    const ogImage = grab(/<meta property="og:image" content="([^"]*)"/);
+    const twitterImage = grab(/<meta name="twitter:image" content="([^"]*)"/);
+    const embedded = grab(/<script type="application\/json" data-wx-page-meta>([\s\S]*?)<\/script>/);
+    const schema = grab(/<script type="application\/ld\+json" data-wx-schema>([\s\S]*?)<\/script>/);
+    const problems = [];
+    if (!title) problems.push("missing title");
+    else if (seenTitles.has(title)) problems.push(`duplicate title (${seenTitles.get(title)})`);
+    else seenTitles.set(title, rel);
+    if (!description) problems.push("missing description");
+    if (!canonical) problems.push("missing canonical");
+    if (!ogImage || !twitterImage || ogImage !== twitterImage) {
+      problems.push("og:image/twitter:image mismatch");
+    } else {
+      const asset = ogImage.replace(/^https?:\/\/[^/]+/, "").replace(/^\//, "");
+      if (!(await exists(path.join(dist, asset)))) problems.push(`og image missing: ${asset}`);
+    }
+    if (!embedded) problems.push("missing client meta data");
+    else {
+      try {
+        const d = JSON.parse(embedded);
+        if (!d.en?.title || !d.ar?.title || !d.en?.description || !d.ar?.description || !d.image) {
+          problems.push("incomplete bilingual meta data");
+        }
+      } catch (e) { problems.push("invalid client meta JSON"); }
+    }
+    if (!schema) problems.push("missing JSON-LD");
+    else {
+      try {
+        const s = JSON.parse(schema);
+        if (!s["@context"] || !s["@type"] || !s.name && !s.headline) problems.push("incomplete JSON-LD");
+      } catch (e) { problems.push("invalid JSON-LD"); }
+    }
+    if (problems.length) { console.error(`  ${rel}: ${problems.join(", ")}`); bad++; }
+  }
+  if (bad) fail(`${siteId}: ${bad}/${files.length} pages have invalid metadata`);
+  else ok(`${siteId}: dynamic meta tags valid on ${files.length} pages`);
+}
+
 async function checkRequired(siteId) {
   const dist = path.join(ROOT, "dist", siteId);
   const req = ["index.html", "404.html", "sitemap.xml", "robots.txt", "assets/css/tokens.css", "assets/js/app.js", "assets/data/cities.json"];
@@ -174,6 +225,7 @@ async function main() {
     const dist = path.join(ROOT, "dist", site);
     if (!(await exists(dist))) { fail(`dist/${site} does not exist. Run build first.`); continue; }
     await checkRequired(site);
+    await checkMeta(site);
     await checkJsSyntax(site);
     await checkModuleImports(site);
     await checkLinks(site);

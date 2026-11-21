@@ -5,6 +5,7 @@ title: Flash floods and wadis: staying safe in Libya
 description: Why dry valleys can flood fast, how to read the signs, and what to do before and during heavy rain.
 date: 2026-05-16
 read: 6
+image: /assets/articles/rain-city.jpg
 ---
 
 # Flash floods and wadis: staying safe in Libya

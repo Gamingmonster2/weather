@@ -5,6 +5,7 @@ title: الزلازل حول ليبيا: ماذا تعني الأرقام
 description: القوة والعمق والمسافة — قراءة تغذية USGS في سياقها.
 date: 2026-05-01
 read: 5
+image: /assets/articles/earth-africa.jpg
 ---
 
 # الزلازل حول ليبيا: ماذا تعني الأرقام

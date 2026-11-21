@@ -8,6 +8,7 @@ import { initMagic, setWeatherMood, tickNumber, setGlobePoints, DEFAULT_POINTS }
 import { initPwa } from "./pwa.js";
 import { $, $$, on, toast, openDialog, closeDialog, bindDialog, initTabs, openSheet, closeSheet, bindSheet, copyText, sharePage, startRain, debounce, setText, setHTML } from "./ui.js";
 import { loadCities, libyanCities, searchCities, cityToPlace, nearestCities } from "./cities.js";
+import { initPageMeta, setPlaceMeta } from "./meta.js";
 
 const state = {
   place: readPlace(),
@@ -494,6 +495,7 @@ async function initCitiesPage() {
 
 async function main() {
   initShell();
+  initPageMeta();
   await loadCities("/assets/data/cities.json");
   await initCityPage();
   await initCitiesPage();
@@ -501,6 +503,7 @@ async function main() {
   const lat = qs("lat"), lon = qs("lon");
   if (lat && lon) {
     state.place = savePlace({ lat: Number(lat), lon: Number(lon), name: { ar: qs("name")||"موقع", en: qs("name")||"Location" }, source: "url" });
+    setPlaceMeta(state.place);
   } else {
     const stored = readPlace();
     if (stored.source === "default") {

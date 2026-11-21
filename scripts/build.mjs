@@ -142,6 +142,7 @@ async function loadGuides(siteId) {
       lang,
       title: meta.title || slug,
       description: meta.description || "",
+      image: meta.image || firstImage(body),
       date: meta.date || "2026-01-01",
       read: meta.read || "5",
       html: mdToHtml(body),
@@ -151,48 +152,224 @@ async function loadGuides(siteId) {
   return guides;
 }
 
+/* -------------------------------------------- dynamic meta / Open Graph core */
+const SITE_IMAGES = {
+  rain: {
+    home: "/assets/articles/glass-rain-city.jpg",
+    about: "/assets/author/saif-ali.jpg",
+    guides: "/assets/articles/rain-glass.jpg",
+    cities: "/assets/articles/coastal-storm.jpg",
+    fallback: "/assets/articles/glass-rain-city.jpg",
+  },
+  weather: {
+    home: "/assets/articles/sky-aerial-clouds.jpg",
+    about: "/assets/author/saif-ali.jpg",
+    guides: "/assets/articles/sky-overcast.jpg",
+    cities: "/assets/articles/medina-rain.jpg",
+    fallback: "/assets/articles/sky-aerial-clouds.jpg",
+  },
+};
+
+/* A city's "main image" follows its climate zone. */
+const ZONE_IMAGES = {
+  coast: "/assets/articles/sea-storm-clouds.jpg",
+  mountain: "/assets/articles/fog-mountains.jpg",
+  desert: "/assets/articles/desert-storm-sky.jpg",
+  oasis: "/assets/articles/sahara-dunes.jpg",
+};
+
+const AUTHOR = {
+  name: "SAYFULDEEN ALI ABDULSALAM",
+  alternateName: ["Mr. Abu Shahma", "مستر ابو شحمه"],
+  jobTitle: "Agricultural engineer & software developer",
+  url: "https://www.rain.ly/about.html",
+};
+
+const htmlEsc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+}[c]));
+
+/* Escape characters that could break out of an inline <script> block. */
+const scriptJson = (value) => JSON.stringify(value)
+  .replace(/</g, "\\u003c")
+  .replace(/\u2028/g, "\\u2028")
+  .replace(/\u2029/g, "\\u2029");
+
+/* The first standalone image in a guide is its cover/og image. */
+function firstImage(body) {
+  const m = String(body || "").match(/!\[[^\]]*\]\(([^)\s]+)\)/);
+  return m ? m[1] : "";
+}
+
+function absoluteUrl(domain, p) {
+  if (!p) return `${domain}/assets/og-rain.svg`;
+  return /^https?:\/\//i.test(p) ? p : `${domain}${p.startsWith("/") ? p : `/${p}`}`;
+}
+
 function pageMeta(site, page, extra = {}) {
+  const images = SITE_IMAGES[site.id] || SITE_IMAGES.rain;
   const base = {
     lang: "en",
     dir: "ltr",
+    page,
     title: `${site.name} — ${extra.title || site.tagline}`,
     description: extra.description || site.tagline,
+    titleAr: "",
+    descriptionAr: "",
     canonical: `${site.domain}${extra.path || "/"}`,
-    ogImage: `${site.domain}/assets/og-${site.id}.svg`,
+    image: images.fallback,
+    ogType: "website",
+    date: "",
+    place: null,
     brand: site.id,
     siteName: site.name,
+    domain: site.domain,
+    tagline: site.tagline,
+    taglineAr: site.taglineAr,
     path: extra.path || "/",
   };
-  return { ...base, ...extra };
+  const merged = { ...base, ...extra };
+  merged.image = extra.image || base.image;
+  merged.ogImage = absoluteUrl(site.domain, merged.image);
+  return merged;
+}
+
+/* Structured data is generated from the same page meta, so it can never
+   drift away from the visible title/description/image. */
+function structuredData(meta) {
+  const siteRef = { "@type": "WebSite", "@id": `${meta.domain}/#website`, name: meta.siteName, url: meta.domain };
+  const publisher = { "@type": "Organization", name: meta.siteName, url: meta.domain };
+  if (meta.page === "index") {
+    return {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": `${meta.domain}/#website`,
+      name: meta.siteName,
+      url: meta.domain,
+      description: meta.description,
+      image: meta.ogImage,
+      inLanguage: ["ar", "en"],
+      publisher,
+    };
+  }
+  if (meta.page === "guide") {
+    return {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: meta.title,
+      description: meta.description,
+      image: [meta.ogImage],
+      datePublished: meta.date || "2026-01-01",
+      dateModified: meta.date || "2026-01-01",
+      author: {
+        "@type": "Person",
+        name: AUTHOR.name,
+        alternateName: AUTHOR.alternateName,
+        jobTitle: AUTHOR.jobTitle,
+        url: AUTHOR.url,
+      },
+      publisher,
+      mainEntityOfPage: { "@type": "WebPage", "@id": meta.canonical },
+      isPartOf: siteRef,
+      inLanguage: ["ar", "en"],
+    };
+  }
+  if (meta.page === "city" && meta.place) {
+    const p = meta.place;
+    return {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: meta.title,
+      description: meta.description,
+      url: meta.canonical,
+      image: meta.ogImage,
+      isPartOf: siteRef,
+      inLanguage: ["ar", "en"],
+      about: {
+        "@type": "City",
+        name: p.name.en,
+        alternateName: p.name.ar,
+        containedInPlace: {
+          "@type": "AdministrativeArea",
+          name: p.region.en,
+          alternateName: p.region.ar,
+        },
+        geo: { "@type": "GeoCoordinates", latitude: p.lat, longitude: p.lon },
+      },
+    };
+  }
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: meta.title,
+    description: meta.description,
+    url: meta.canonical,
+    image: meta.ogImage,
+    isPartOf: siteRef,
+    inLanguage: ["ar", "en"],
+  };
 }
 
 function headTags(meta) {
-  const altAr = meta.canonical.replace(/\/$/, "") || meta.canonical;
+  const title = htmlEsc(meta.title);
+  const desc = htmlEsc(meta.description);
+  const img = htmlEsc(meta.ogImage);
+  const url = htmlEsc(meta.canonical);
+  const imgAlt = htmlEsc(meta.imageAlt || meta.title);
+  const isArticle = meta.ogType === "article";
+  const langHref = (lang) => `${meta.canonical}${meta.canonical.includes("?") ? "&" : "?"}lang=${lang}`;
+  const schema = scriptJson(structuredData(meta));
+  /* Read by shared/js/meta.js: lets the client update title/description/OG
+     when the visitor switches language or opens a dynamic place deep link. */
+  const embedded = scriptJson({
+    canonical: meta.canonical,
+    image: meta.ogImage,
+    imageAlt: meta.imageAlt || meta.title,
+    site: meta.siteName,
+    domain: meta.domain,
+    page: meta.page,
+    type: meta.ogType,
+    en: { title: meta.title, description: meta.description },
+    ar: {
+      title: meta.titleAr || meta.title,
+      description: meta.descriptionAr || meta.description,
+    },
+    place: meta.place,
+  });
   return `
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>${meta.title}</title>
-  <meta name="description" content="${meta.description}">
+  <title>${title}</title>
+  <meta name="description" content="${desc}">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="${meta.brand === "rain" ? "#0b1220" : "#f5f7fa"}">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="${meta.siteName}">
+  <meta name="apple-mobile-web-app-title" content="${htmlEsc(meta.siteName)}">
   <meta name="apple-mobile-web-app-status-bar-style" content="${meta.brand === "rain" ? "black-translucent" : "default"}">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" href="/assets/icons/${meta.brand}-192.png">
-  <link rel="canonical" href="${meta.canonical}">
-  <link rel="alternate" hreflang="ar" href="${meta.canonical}">
-  <link rel="alternate" hreflang="en" href="${meta.canonical}">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="${meta.siteName}">
-  <meta property="og:title" content="${meta.title}">
-  <meta property="og:description" content="${meta.description}">
-  <meta property="og:url" content="${meta.canonical}">
-  <meta property="og:image" content="${meta.ogImage}">
+  <link rel="canonical" href="${url}">
+  <link rel="alternate" hreflang="ar" href="${htmlEsc(langHref("ar"))}">
+  <link rel="alternate" hreflang="en" href="${htmlEsc(langHref("en"))}">
+  <link rel="alternate" hreflang="x-default" href="${url}">
+  <meta property="og:type" content="${isArticle ? "article" : "website"}">
+  <meta property="og:site_name" content="${htmlEsc(meta.siteName)}">
+  <meta property="og:title" content="${title}">
+  <meta property="og:description" content="${desc}">
+  <meta property="og:url" content="${url}">
+  <meta property="og:image" content="${img}">
+  <meta property="og:image:alt" content="${imgAlt}">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ar_LY">
+  ${isArticle && meta.date ? `<meta property="article:published_time" content="${htmlEsc(meta.date)}">\n  <meta property="article:modified_time" content="${htmlEsc(meta.date)}">` : ""}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${meta.title}">
-  <meta name="twitter:description" content="${meta.description}">
+  <meta name="twitter:title" content="${title}">
+  <meta name="twitter:description" content="${desc}">
+  <meta name="twitter:image" content="${img}">
+  <meta name="twitter:image:alt" content="${imgAlt}">
+  <script type="application/ld+json" data-wx-schema>${schema}</script>
+  <script type="application/json" data-wx-page-meta>${embedded}</script>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -238,7 +415,7 @@ const SHELL = [
   "/assets/css/weather.css", "/assets/css/magic.css", "/assets/css/brand-${site.id}.css",
   "/assets/js/config.js", "/assets/js/i18n.js", "/assets/js/api.js", "/assets/js/geo.js",
   "/assets/js/ui.js", "/assets/js/icons.js", "/assets/js/charts.js", "/assets/js/cities.js",
-  "/assets/js/magic.js", "/assets/js/pwa.js", "/assets/js/app.js"
+  "/assets/js/magic.js", "/assets/js/pwa.js", "/assets/js/meta.js", "/assets/js/app.js"
 ];
 
 self.addEventListener("install", (event) => {
@@ -349,32 +526,76 @@ async function buildSite(site, cities, allGuides) {
     await fs.writeFile(outPath, html, "utf8");
   };
 
-  // Core pages
-  await writePage("index.html", "index", pageMeta(site, "index", { path: "/" }));
-  await writePage("about.html", "about", pageMeta(site, "about", { path: "/about.html", title: `${site.name} — About this weather project` }));
+  // Core pages — every page carries its own bilingual title/description/cover.
+  const imgs = SITE_IMAGES[site.id] || SITE_IMAGES.rain;
+  await writePage("index.html", "index", pageMeta(site, "index", {
+    path: "/",
+    image: imgs.home,
+    titleAr: `${site.name} — ${site.taglineAr}`,
+    descriptionAr: `طقس ليبيا المباشر: رادار الأمطار وخرائطها والتوقعات ساعة بساعة ومرصد البحر والزلازل.`,
+  }));
+  await writePage("about.html", "about", pageMeta(site, "about", {
+    path: "/about.html",
+    title: `${site.name} — About this weather project`,
+    description: `Meet the team behind ${site.name} and learn how its Libya-first weather tools are built.`,
+    titleAr: `${site.name} — عن هذا المشروع`,
+    descriptionAr: `تعرّف على الفريق وراء ${site.name} وكيف بُنيت أدوات الطقس الخاصة بليبيا.`,
+    image: imgs.about,
+  }));
   await writePage("guides.html", "guides", pageMeta(site, "guides", {
     path: "/guides.html",
     title: `${site.name} — Rain radar & weather guides`,
     description: `Bilingual guides to live rain maps, radar, hourly forecasts and weather in Libya from ${site.name}.`,
+    titleAr: `${site.name} — أدلة الطقس والأمطار`,
+    descriptionAr: `أدلة ثنائية اللغة عن خرائط الأمطار والرادار والتوقعات ساعة بساعة وطقس ليبيا من ${site.name}.`,
+    image: imgs.guides,
   }));
   await writePage("cities.html", "cities", pageMeta(site, "cities", {
     path: "/cities.html",
     title: `${site.name} — Libyan cities & live weather`,
     description: `Live weather, rain and forecast conditions for cities across Libya on ${site.name}.`,
+    titleAr: `${site.name} — مدن ليبيا والطقس المباشر`,
+    descriptionAr: `طقس مباشر وأمطار وتوقعات لمدن ليبيا على ${site.name}.`,
+    image: imgs.cities,
   }));
   await writePage("credits.html", "credits", pageMeta(site, "credits", {
     path: "/credits.html",
     title: `${site.name} — Image credits`,
     description: `Photo credits and licences for images used on ${site.name}.`,
+    titleAr: `${site.name} — حقوق الصور`,
+    descriptionAr: `مصادر الصور والتراخيص المستخدمة في ${site.name}.`,
+    image: imgs.fallback,
   }));
-  await writePage("404.html", "404", pageMeta(site, "404", { path: "/404.html", title: "Not found" }));
+  await writePage("404.html", "404", pageMeta(site, "404", {
+    path: "/404.html",
+    title: `${site.name} — Page not found`,
+    description: `The page you requested could not be found on ${site.name}.`,
+    titleAr: `${site.name} — الصفحة غير موجودة`,
+    descriptionAr: `لم نعثر على الصفحة المطلوبة في ${site.name}.`,
+    image: imgs.fallback,
+  }));
 
-  // City pages (Libyan)
+  // City pages (Libyan) — each deep link owns its meta + structured data.
   for (const city of cities.libya) {
     const pathUrl = `/city/${city.id}.html`;
     const title = `Weather in ${city.en}`;
     const desc = `Live conditions, hourly rain and 7-day forecast for ${city.en}, ${city.region.en}, Libya.`;
-    await writePage(`city/${city.id}.html`, "city", pageMeta(site, "city", { path: pathUrl, title, description: desc }), {
+    await writePage(`city/${city.id}.html`, "city", pageMeta(site, "city", {
+      path: pathUrl,
+      title,
+      description: desc,
+      titleAr: `${site.name} — الطقس في ${city.ar}`,
+      descriptionAr: `أحوال الطقس المباشرة والأمطار والتوقعات لمدة 7 أيام في ${city.ar}، ${city.region.ar}، ليبيا.`,
+      image: ZONE_IMAGES[city.zone] || imgs.cities,
+      place: {
+        id: city.id,
+        name: { en: city.en, ar: city.ar },
+        region: { en: city.region.en, ar: city.region.ar },
+        lat: city.lat,
+        lon: city.lon,
+        zone: city.zone,
+      },
+    }), {
       cityId: city.id,
       cityEn: city.en,
       cityAr: city.ar,
@@ -389,7 +610,7 @@ async function buildSite(site, cities, allGuides) {
   }
 
   // Guide pages
-  const urls = ["/", "/about.html", "/guides.html", "/cities.html"];
+  const urls = ["/", "/about.html", "/guides.html", "/cities.html", "/credits.html"];
   for (const city of cities.libya) urls.push(`/city/${city.id}.html`);
 
   const guidesBySlug = new Map();
@@ -412,7 +633,17 @@ async function buildSite(site, cities, allGuides) {
     if (await exists(guidePagePath)) pageBody = await fs.readFile(guidePagePath, "utf8");
     pageBody = pageBody.replace("<!-- @guide -->", bodyHtml);
     pageBody = render(pageBody, { ...baseVars, guideTitle: en.title, guideTitleAr: ar.title, guideDesc: en.description, slug });
-    const meta = pageMeta(site, "guide", { path: pathUrl, title: en.title, description: en.description || site.tagline });
+    const meta = pageMeta(site, "guide", {
+      path: pathUrl,
+      title: en.title,
+      description: en.description || site.tagline,
+      titleAr: `${site.name} — ${ar.title}`,
+      descriptionAr: ar.description || site.taglineAr,
+      image: en.image || ar.image || imgs.guides,
+      imageAlt: en.title,
+      ogType: "article",
+      date: en.date || ar.date || "",
+    });
     const html = render(layout, { ...baseVars, ...meta, head: headTags(meta), body: pageBody });
     const outPath = path.join(dist, "guides", `${slug}.html`);
     await fs.writeFile(outPath, html, "utf8");

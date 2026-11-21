@@ -5,6 +5,7 @@ title: Understanding air quality and dust in Libya
 description: What AQI, PM2.5 and dust mean — and when ghibli winds matter.
 date: 2026-05-01
 read: 5
+image: /assets/articles/med-dust.jpg
 ---
 
 # Understanding air quality and dust in Libya

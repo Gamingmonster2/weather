@@ -5,6 +5,7 @@ title: Rain seasons across Libya's coast, mountains and desert
 description: Why Tripoli, Al Bayda and Sabha live in completely different rain regimes.
 date: 2026-05-01
 read: 6
+image: /assets/articles/after-rain.jpg
 ---
 
 # Rain seasons across Libya's coast, mountains and desert

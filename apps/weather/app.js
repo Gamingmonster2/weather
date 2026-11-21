@@ -8,6 +8,7 @@ import { $, $$, on, toast, openDialog, closeDialog, bindDialog, initTabs, openSh
 import { loadCities, libyanCities, searchCities, cityToPlace, getCityById } from "./cities.js";
 import { initMagic, setWeatherMood, tickNumber, setGlobePoints, DEFAULT_POINTS } from "./magic.js";
 import { initPwa } from "./pwa.js";
+import { initPageMeta, setPlaceMeta } from "./meta.js";
 
 const state = {
   place: readPlace(), forecast: null, air: null, marine: null, quakes: null,
@@ -322,9 +323,9 @@ async function initCityPage(){ const main=document.querySelector("[data-city-pag
 async function initCitiesPage(){ const grid=$("#all-cities-grid"); if(!grid) return; await loadCities("/assets/data/cities.json"); setHTML(grid, libyanCities().map(c=>`<a class="city-tile" href="/city/${c.id}.html"><div class="city-tile-name">${getLang()==="ar"?c.ar:c.en}</div><div class="city-tile-region">${getLang()==="ar"?c.region.ar:c.region.en}</div></a>`).join("")); }
 
 async function main(){
-  initShell(); await loadCities("/assets/data/cities.json"); await initCityPage(); await initCitiesPage();
+  initShell(); initPageMeta(); await loadCities("/assets/data/cities.json"); await initCityPage(); await initCitiesPage();
   const lat=qs("lat"), lon=qs("lon");
-  if(lat&&lon) state.place=savePlace({lat:Number(lat),lon:Number(lon),name:{ar:qs("name")||"موقع",en:qs("name")||"Location"},source:"url"});
+  if(lat&&lon){ state.place=savePlace({lat:Number(lat),lon:Number(lon),name:{ar:qs("name")||"موقع",en:qs("name")||"Location"},source:"url"}); setPlaceMeta(state.place); }
   else if(readPlace().source==="default") {
     const ip=await safe(()=>locateByIp(), null);
     if(ip){ state.place=savePlace(ip); toast(t("action.autoLocated")); }

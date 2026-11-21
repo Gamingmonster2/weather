@@ -5,6 +5,7 @@ title: How to read rain radar like a forecaster
 description: Intensity colours, movement, and what "nowcast" really means for the next hour.
 date: 2026-05-01
 read: 5
+image: /assets/articles/rain-glass.jpg
 ---
 
 # How to read rain radar like a forecaster

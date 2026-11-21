@@ -440,6 +440,11 @@ const state = { lang: null };
 
 export function detectLang() {
   try {
+    // A ?lang= deep link wins over storage so hreflang alternates really work.
+    if (typeof location !== "undefined") {
+      const requested = new URL(location.href).searchParams.get("lang");
+      if (requested === "ar" || requested === "en") return requested;
+    }
     const stored = localStorage.getItem("wx.lang");
     if (stored === "ar" || stored === "en") return stored;
   } catch (e) {

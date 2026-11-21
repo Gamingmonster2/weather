@@ -5,6 +5,7 @@ title: Earthquakes around Libya: what the numbers mean
 description: Magnitude, depth and distance — reading the USGS feed with context.
 date: 2026-05-01
 read: 5
+image: /assets/articles/earth-africa.jpg
 ---
 
 # Earthquakes around Libya: what the numbers mean
