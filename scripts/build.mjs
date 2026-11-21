@@ -84,6 +84,7 @@ function mdToHtml(md) {
         '<figure class="article-figure magic-card">',
         '<div class="article-figure-media">',
         `<img src="${esc(imgMatch[2])}" alt="${esc(alt)}" loading="eager" decoding="async">`,
+        '<span class="article-glass" aria-hidden="true"></span>',
         "</div>",
         caption ? `<figcaption>${inline(caption)}</figcaption>` : "",
         "</figure>",

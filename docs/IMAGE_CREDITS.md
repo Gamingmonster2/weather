@@ -1,7 +1,10 @@
 # Image credits
 
-Photos used in the bilingual guides on Rain.ly. All images come from Wikimedia Commons
-and keep their original licences. They were resized and converted to JPEG for speed.
+Photos used in the bilingual guides on Rain.ly. Images come from Wikimedia Commons
+and Pexels, and keep their original licences. They were cropped to 4:3 and converted to
+JPEG for speed and for a clean fit on phones.
+
+## Wikimedia Commons
 
 | Local file | Original | Author | Licence |
 | --- | --- | --- | --- |
@@ -21,5 +24,31 @@ and keep their original licences. They were resized and converted to JPEG for sp
 | `rainbow.jpg` | [Phulchowki Hill and Rainbow.jpg](https://commons.wikimedia.org/wiki/File:Phulchowki_Hill_and_Rainbow.jpg) | Shadow Ayush | CC BY-SA 4.0 |
 | `mist.jpg` | [Autumn Morning Mist (8510188345).jpg](https://commons.wikimedia.org/wiki/File:Autumn_Morning_Mist_(8510188345).jpg) | Western Arctic National Parklands | CC BY 2.0 |
 
-Weather background photos on the home page come from [Pexels](https://www.pexels.com/).
+## Pexels
+
+The five 2026 guides ("rain smell", "desert dust", "sea before storm", "cloud shapes"
+and "fog") use these [Pexels](https://www.pexels.com/) photos under the
+[Pexels License](https://www.pexels.com/license/). All were chosen for weather subjects
+with no people or living creatures.
+
+| Local file | Original | Photographer | Licence |
+| --- | --- | --- | --- |
+| `glass-rain-city.jpg` | [Wet Window](https://www.pexels.com/photo/wet-window-2618980/) | R. Fera | Pexels License |
+| `glass-drops-wide.jpg` | [Rain drops on glass window surface](https://www.pexels.com/photo/rain-drops-on-glass-window-surface-4702157/) | Ellie Burgin | Pexels License |
+| `glass-close.jpg` | [Wet Glass Window](https://www.pexels.com/photo/wet-glass-window-15450204/) | Tuğba Kobal Yılmaz | Pexels License |
+| `desert-storm-sky.jpg` | [Scenic View of Desert under Storm Clouds](https://www.pexels.com/photo/scenic-view-of-desert-under-storm-clouds-16908876/) | 光曦 刘 | Pexels License |
+| `desert-whirlwind.jpg` | [Landscape with Whirlwinds over Desert](https://www.pexels.com/photo/landscape-with-whirlwinds-over-desert-4596891/) | Ton Souza | Pexels License |
+| `sahara-dunes.jpg` | [Golden Sunset Over Sahara Desert Sand Dunes](https://www.pexels.com/photo/golden-sunset-over-sahara-desert-sand-dunes-36203198/) | Nirjhar Basak | Pexels License |
+| `sea-storm-clouds.jpg` | [Storm Clouds above Sea](https://www.pexels.com/photo/storm-clouds-above-sea-7762112/) | Magda Ehlers | Pexels License |
+| `sea-waves-cloudy.jpg` | [Ocean Waves Under Cloudy Sky](https://www.pexels.com/photo/ocean-waves-under-cloudy-sky-14332267/) | Johannes Plenio | Pexels License |
+| `sea-mediterranean-storm.jpg` | [Storm Clouds over Sea](https://www.pexels.com/photo/storm-clouds-over-sea-19202984/) | metehan demir | Pexels License |
+| `sky-overcast.jpg` | [Cloudy Sky](https://www.pexels.com/photo/cloudy-sky-3941855/) | Ale Conchillos | Pexels License |
+| `sky-aerial-clouds.jpg` | [Aerial Photography of Clouds](https://www.pexels.com/photo/aerial-photography-of-clouds-164172/) | Pixabay | Pexels License |
+| `sky-dusk-clouds.jpg` | [Clouds on Sky at Dusk](https://www.pexels.com/photo/clouds-on-sky-at-dusk-19015075/) | Rodion Kutsaiev | Pexels License |
+| `fog-mountains.jpg` | [Fog in Mountains](https://www.pexels.com/photo/fog-in-mountains-15146773/) | Artem Zhukov | Pexels License |
+| `fog-slope.jpg` | [Moody Mountain Landscape Surrounded by Fog](https://www.pexels.com/photo/moody-mountain-landscape-surrounded-by-fog-38155573/) | Ahmet Yüksek | Pexels License |
+| `fog-wet-street.jpg` | [Empty wet street near buildings](https://www.pexels.com/photo/empty-wet-street-near-buildings-7215949/) | Faruk Tokluoğlu | Pexels License |
+
+Weather background photos on the home page also come from [Pexels](https://www.pexels.com/).
+The author portrait is supplied by the site author.
 The author portrait is supplied by the site author.

@@ -15,6 +15,12 @@
   0%, 20% { transform: translateX(-130%); }
   65%, 100% { transform: translateX(130%); }
 }
+/* Slow ambient gloss that travels across the glass window over guide photos. */
+@keyframes magic-glass-sweep {
+  0%, 8% { left: -78%; opacity: 0; }
+  16% { opacity: 1; }
+  58%, 100% { left: 132%; opacity: 0; }
+}
 @keyframes magic-float {
   0%, 100% { transform: translate3d(0, 0, 0); }
   50% { transform: translate3d(0, -8px, 0); }
@@ -158,6 +164,76 @@
 .article-figure:hover img {
   transform: scale(1.07);
   filter: saturate(115%) contrast(105%);
+}
+
+/* Magic UI-style glossy glass window laid over each photo. A very light blur
+   keeps the picture readable while the inner border + moving glint give it a
+   polished, premium feel. CSS only, so it works everywhere with no JS. */
+.article-glass {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, white 22%, transparent) 0%,
+    color-mix(in oklab, white 5%, transparent) 30%,
+    transparent 54%,
+    color-mix(in oklab, white 7%, transparent) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, white 34%, transparent),
+    inset 0 1px 1px color-mix(in oklab, white 42%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, black 20%, transparent);
+  -webkit-backdrop-filter: blur(1.4px) saturate(118%);
+  backdrop-filter: blur(1.4px) saturate(118%);
+}
+/* The travelling shine. */
+.article-glass::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -78%;
+  width: 52%;
+  height: 220%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, white 45%, transparent) 46%,
+    color-mix(in oklab, white 18%, transparent) 62%,
+    transparent
+  );
+  transform: rotate(18deg);
+  animation: magic-glass-sweep 7s ease-in-out infinite;
+}
+/* Soft corner reflection, like light catching the glass. */
+.article-glass::after {
+  content: "";
+  position: absolute;
+  inset: 9% auto auto 7%;
+  width: 34%;
+  height: 24%;
+  border-radius: 999px;
+  background: radial-gradient(
+    ellipse at 32% 30%,
+    color-mix(in oklab, white 28%, transparent),
+    transparent 70%
+  );
+  filter: blur(7px);
+}
+.article-figure:hover .article-glass::before { animation-duration: 2.6s; }
+@media (prefers-reduced-motion: reduce) {
+  .article-glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .article-glass::before { animation: none; opacity: 0; }
+}
+@media (max-width: 640px) {
+  .article-glass {
+    -webkit-backdrop-filter: blur(1px) saturate(112%);
+    backdrop-filter: blur(1px) saturate(112%);
+  }
+  .article-glass::after { width: 42%; height: 20%; }
 }
 .article-figure figcaption {
   margin-block-start: 0.7rem;
